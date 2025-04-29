@@ -26,8 +26,9 @@
 
       <div class="telegram__container">
       <h2 class="telegram__title">Login via Telegram</h2>
-      
+
       <div v-if="!loggedIn" ref="telegramButton" class="telegram__button"></div>
+      
       <div v-else class="telegram__result">
         <h3>👋 Welcome, {{ userData.first_name }}!</h3>
         <p>You have successfully authenticated via Telegram.</p>
@@ -38,33 +39,51 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const loggedIn = ref(false)
 const userData = ref({})
+const telegramButton = ref(null)
+
+function handleTelegramAuth(user) {
+  if (!user || !user.id) {
+    console.warn('No user data received from Telegram')
+    return
+  }
+
+  console.log('User authorized:', user)
+  userData.value = user
+  loggedIn.value = true
+
+  fetch('/api/telegram-auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user),
+  }).catch(err => console.error('Failed to send auth to server', err))
+}
 
 onMounted(() => {
+  if (!telegramButton.value) {
+    console.error('Telegram button container missing')
+    return
+  }
+
   const script = document.createElement('script')
   script.src = 'https://telegram.org/js/telegram-widget.js?22'
-  script.setAttribute('data-telegram-login', 'sendHiFromPortfolioBot')
+  script.setAttribute('data-telegram-login', 'YOUR_BOT_USERNAME')
   script.setAttribute('data-size', 'large')
   script.setAttribute('data-userpic', 'false')
-  script.setAttribute('data-onauth', 'onTelegramAuth')
+  script.setAttribute('data-onauth', 'handleTelegramAuth') 
   script.setAttribute('data-request-access', 'write')
   script.async = true
-  document.getElementById('telegramButton').appendChild(script)
 
-  window.onTelegramAuth = async function (user) {
-    console.log('User authorized:', user)
-    userData.value = user
-    loggedIn.value = true
-    
-    await fetch('/api/telegram-auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user),
-    });
-  }
+  telegramButton.value.appendChild(script)
+
+  window.handleTelegramAuth = handleTelegramAuth
+})
+
+onUnmounted(() => {  
+  delete window.handleTelegramAuth
 })
 </script>
 
