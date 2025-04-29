@@ -15,8 +15,7 @@
             </span>
           </h1>
 
-          <div class="home__tagline">
-            <span class="home__tagline-prefix">I'm a</span>
+          <div class="home__tagline">            
             <div class="home__typewriter">
               <span
                 v-for="(role, index) in roles"
@@ -376,13 +375,13 @@ onBeforeUnmount(() => {
   padding: 2rem 0;
 }
 
-/* Заголовок с анимацией */
 .home__title {
   font-size: 3.5rem;
   font-weight: bold;
   color: white;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .home__title-letter {
@@ -391,7 +390,6 @@ onBeforeUnmount(() => {
   animation: fade-in 0.5s forwards;
 }
 
-/* Анимированный ролевой текст */
 .home__tagline {
   display: flex;
   align-items: center;
