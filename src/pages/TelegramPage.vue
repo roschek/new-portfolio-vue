@@ -24,64 +24,48 @@
         </form>
       </div>
 
-      <div id="telegram-login" class="telegram__login"></div>
+      <div class="telegram__container">
+      <h2 class="telegram__title">Login via Telegram</h2>
+      
+      <div v-if="!loggedIn" ref="telegramButton" class="telegram__button"></div>
+      <div v-else class="telegram__result">
+        <h3>👋 Welcome, {{ userData.first_name }}!</h3>
+        <p>You have successfully authenticated via Telegram.</p>
+      </div>
+    </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const input = ref('')
-const messages = ref([
-  { text: 'Hello! I am your Telegram assistant 🤖', isBot: true }
-])
-
-const chatBox = ref(null)
+const loggedIn = ref(false)
+const userData = ref({})
 
 onMounted(() => {
-  const script = document.createElement('script');
-  script.src = 'https://telegram.org/js/telegram-widget.js?22';
-  script.setAttribute('data-telegram-login', 'sendHiFromPortfolioBot');
-  script.setAttribute('data-size', 'large');
-  script.setAttribute('data-auth-url', '/api/telegram-auth');
-  script.setAttribute('data-request-access', 'write');
-  script.async = true;
-  document.getElementById('telegram-login').appendChild(script);
+  const script = document.createElement('script')
+  script.src = 'https://telegram.org/js/telegram-widget.js?22'
+  script.setAttribute('data-telegram-login', 'sendHiFromPortfolioBot')
+  script.setAttribute('data-size', 'large')
+  script.setAttribute('data-userpic', 'false')
+  script.setAttribute('data-onauth', 'onTelegramAuth')
+  script.setAttribute('data-request-access', 'write')
+  script.async = true
+  document.getElementById('telegramButton').appendChild(script)
+
+  window.onTelegramAuth = async function (user) {
+    console.log('User authorized:', user)
+    userData.value = user
+    loggedIn.value = true
+    
+    await fetch('/api/telegram-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    });
+  }
 })
-
-function sendMessage() {
-  if (input.value.trim() === '') return
-
-  messages.value.push({ text: input.value, isBot: false })
-
-  const userMessage = input.value
-  input.value = ''
-
-  setTimeout(() => {
-    messages.value.push({
-      text: generateBotReply(userMessage),
-      isBot: true
-    })
-    scrollToBottom()
-  }, 500)
-
-  scrollToBottom()
-}
-
-function generateBotReply(userText) {
-  if (userText.toLowerCase().includes('hello')) return 'Hello there! 👋'
-  if (userText.toLowerCase().includes('help')) return 'How can I assist you? 🤔'
-  return 'Sorry, I am just a demo bot. But I can help you build real ones! 🚀'
-}
-
-function scrollToBottom() {
-  nextTick(() => {
-    if (chatBox.value) {
-      chatBox.value.scrollTop = chatBox.value.scrollHeight
-    }
-  })
-}
 </script>
 
 <style scoped>
