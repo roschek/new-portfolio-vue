@@ -1,6 +1,6 @@
 <template>
   <section ref="vantaRef"
-    class="relative h-2/3 overflow-hidden flex flex-1 flex-col items-center justify-center text-center p-8">
+    class="relative h-2/3 overflow-hidden flex flex-1 flex-col items-center justify-center text-center p-8 mt-10">
     <div class="relative z-10">
       <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
         <span v-for="(letter, index) in titleArray" :key="index" class="inline-block opacity-0 animate-fade-in"
