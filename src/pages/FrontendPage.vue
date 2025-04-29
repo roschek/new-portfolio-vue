@@ -1,37 +1,35 @@
 <template>
-  <section class="sbg-[#0F172A] text-white  flex-1 px-8  mt-10">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl font-bold mb-12 text-center">Professional Experience</h2>
+  <section class="experience">
+    <div class="experience__container">
+      <h2 class="experience__title">Professional Experience</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="(job, index) in jobs" :key="index"
-          class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300 flex flex-col justify-between">
-          <div class="p-6 flex flex-col justify-between h-full">
+      <div class="experience__grid">
+        <div v-for="(job, index) in jobs" :key="index" class="experience__card">
+          <div class="experience__card-content">
             <div>
-              <h3 class="text-2xl font-semibold mb-2">{{ job.position }}</h3>
+              <h3 class="experience__position">{{ job.position }}</h3>
               <template v-if="job.path">
-                <a :href="job.path" class="text-blue-400 mb-2" target="_blank">{{ job.company }} | {{ job.period }}</a>
+                <a :href="job.path" class="experience__company" target="_blank">{{ job.company }} | {{ job.period }}</a>
               </template>
               <template v-else>
-                <p class="text-blue-400 mb-2">{{ job.company }} | {{ job.period }}</p>
+                <p class="experience__company">{{ job.company }} | {{ job.period }}</p>
               </template>
-              <ul class="list-disc list-inside text-gray-400 mb-4 text-sm">
-                <li v-for="(achievement, idx) in job.achievements" :key="idx">{{ achievement }}</li>
+              <ul class="experience__achievements">
+                <li v-for="(achievement, idx) in job.achievements" :key="idx" class="experience__achievement">
+                  {{ achievement }}
+                </li>
               </ul>
             </div>
-            <div class="mt-auto">
-              <div class="flex flex-wrap gap-2">
-                <span v-for="(tech, idx) in job.technologies" :key="idx"
-                  class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs">
-                  {{ tech }}
-                </span>
-              </div>
+            <div class="experience__technologies">
+              <span v-for="(tech, idx) in job.technologies" :key="idx" class="experience__technology">
+                {{ tech }}
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>  
+  </section>
 </template>
 
 <script setup>
@@ -89,3 +87,91 @@ const jobs = [
   }
 ]
 </script>
+
+<style scoped>
+
+.experience {
+  padding: 2rem;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.experience__container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.experience__title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.experience__grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.experience__card {
+  background-color: #1F2937;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.experience__card:hover {
+  transform: scale(1.05);
+}
+
+.experience__card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.experience__position {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.experience__company {
+  font-size: 1rem;
+  color: #38bdf8;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.experience__achievements {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.experience__achievement {
+  margin-bottom: 0.5rem;
+}
+
+.experience__technologies {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.experience__technology {
+  background-color: #2563eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+}
+</style>

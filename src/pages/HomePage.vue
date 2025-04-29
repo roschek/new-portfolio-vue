@@ -1,48 +1,35 @@
 <template>
-  <section ref="vantaRef"
-    class="relative h-2/3 overflow-hidden flex flex-1 flex-col items-center justify-center text-center p-8 mt-10">
-    <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-        <span v-for="(letter, index) in titleArray" :key="index" class="inline-block opacity-0 animate-fade-in"
-          :style="{ animationDelay: (index * 0.05) + 's' }">
+  <section class="home" ref="vantaRef">
+    <div class="home__content">
+      <h1 class="home__title">
+        <span
+          v-for="(letter, index) in titleArray"
+          :key="index"
+          class="home__title-letter"
+          :style="{ animationDelay: (index * 0.05) + 's' }"
+        >
           <template v-if="letter === ' '">&nbsp;</template>
           <template v-else>{{ letter }}</template>
         </span>
       </h1>
 
-      <p class="text-lg md:text-2xl text-gray-300 mb-8">
+      <p class="home__subtitle">
         Creating Interfaces, Automating Workflows, Powering Ideas.
       </p>
 
-      <!-- About Section -->
-      <div class="max-w-3xl mx-auto text-gray-400 mb-12">
-        <p class="text-lg mb-4">
-          Hi, I'm Aleksei Kagan — Senior Frontend and Fullstack Developer.
-        </p>
-        <p class="text-lg">
-          Experienced in building high-performance web applications with React, Vue.js, Node.js. Passionate about
-          intelligent
-          solutions, mentoring developers, and exploring new technologies.
+      <div class="home__about">
+        <p class="home__text">Hi, I'm Aleksei Kagan — Senior Frontend and Fullstack Developer.</p>
+        <p class="home__text">
+          Experienced in building high-performance web applications with React, Vue.js, Node.js. Passionate about intelligent solutions, mentoring developers, and exploring new technologies.
         </p>
       </div>
 
-      <!-- Contact Section -->
-      <div class="flex justify-center gap-6 text-3xl text-white">
-        <a href="https://www.linkedin.com/in/alexey-kagan" target="_blank" aria-label="LinkedIn" class="hover:text-blue-400">
-          <font-awesome-icon :icon="['fab', 'linkedin']" />
-        </a>
-        <a href="https://t.me/roschek" target="_blank" aria-label="Telegram" class="hover:text-blue-400">
-          <font-awesome-icon :icon="['fab', 'telegram']" />
-        </a>
-        <a href="https://wa.me/972539310707" target="_blank" aria-label="WhatsApp" class="hover:text-blue-400">
-          <font-awesome-icon :icon="['fab', 'whatsapp']" />
-        </a>
-        <a href="mailto:roscheka@gmail.com" target="_blank" aria-label="Email" class="hover:text-blue-400">
-          <font-awesome-icon :icon="['fas', 'envelope']" />
-        </a>
+      <div class="home__contacts">
+        <a href="https://linkedin.com/in/alexey-kagan" target="_blank" class="home__contact-link" aria-label="LinkedIn">LinkedIn</a>
+        <a href="https://t.me/roschek" target="_blank" class="home__contact-link" aria-label="Telegram">Telegram</a>
+        <a href="https://wa.me/972539310707" target="_blank" class="home__contact-link" aria-label="WhatsApp">WhatsApp</a>
+        <a href="mailto:roscheka@gmail.com" class="home__contact-link" aria-label="Email">Email</a>
       </div>
-
-
     </div>
   </section>
 </template>
@@ -78,19 +65,81 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.home {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  background-color: #0F172A;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  text-align: center;
+}
+
+.home__content {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+}
+
+.home__title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.home__title-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: fade-in 0.5s forwards;
+}
+
+.home__subtitle {
+  font-size: 1.25rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.home__about {
+  color: #aaa;
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.home__text {
+  margin-bottom: 1rem;
+}
+
+.home__contacts {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.home__contact-link {
+  font-size: 1rem;
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.home__contact-link:hover {
+  color: black;
+  transition: color 0.3s ease;
+}
+
 @keyframes fade-in {
   0% {
     opacity: 0;
     transform: translateY(10px);
   }
-
   100% {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s forwards;
 }
 </style>

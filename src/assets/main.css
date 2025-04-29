@@ -1,4 +1,3 @@
-@import "tailwindcss";
 
 html {
   scroll-behavior: smooth;
@@ -9,4 +8,31 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+}
+body {
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  background-color: #0F172A;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5em;
+  font-weight: bold;
+}
+
+p {
+  margin: 0 0 1em;
+  line-height: 1.6;
+}
+
+a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: black;
+    transition: color 0.3s ease;
 }

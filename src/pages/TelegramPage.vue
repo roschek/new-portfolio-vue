@@ -1,37 +1,43 @@
 <template>
-  <section class="bg-[#0F172A] text-white  flex-1 px-8  mt-10">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl font-bold mb-8 text-center">Telegram Bots Projects</h2>
+  <section class="telegram">
+    <div class="telegram__content">
+      <h2 class="telegram__title">Telegram Bots Projects</h2>
 
-      <p class="text-lg text-gray-400 mb-12 text-center">
-        I create smart, reliable, and scalable Telegram bots to automate tasks, provide services, and connect with
-        users.
+      <p class="telegram__description">
+        I create smart, reliable, and scalable Telegram bots to automate tasks, provide services, and connect with users.
       </p>
 
-      <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
-        <div class="h-80 overflow-y-auto p-4 bg-gray-900 rounded-lg mb-4" ref="chatBox">
-          <div v-for="(message, index) in messages" :key="index"
-            :class="message.isBot ? 'text-blue-400' : 'text-green-400'" class="mb-2">
-            <span class="font-semibold">{{ message.isBot ? 'Bot' : 'You' }}:</span> {{ message.text }}
+      <div class="telegram__chat">
+        <div class="telegram__chat-window" ref="chatBox">
+          <div
+            v-for="(message, index) in messages"
+            :key="index"
+            :class="['telegram__message', message.isBot ? 'telegram__message--bot' : 'telegram__message--user']"
+          >
+            <span class="telegram__message-sender">{{ message.isBot ? 'Bot' : 'You' }}:</span> {{ message.text }}
           </div>
         </div>
 
-        <form @submit.prevent="sendMessage" class="flex gap-4">
-          <input v-model="input" type="text" placeholder="Type a message..."
-            class="flex-grow p-3 rounded-lg text-black text-white" />
-          <button type="submit" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
-            Send
-          </button>
+        <form @submit.prevent="sendMessage" class="telegram__form">
+          <input v-model="input" type="text" placeholder="Type a message..." class="telegram__input" />
+          <button type="submit" class="telegram__button">Send</button>
         </form>
       </div>
+
+      <div id="telegram-login" class="telegram__login"></div>
     </div>
-    <div id="telegram-login" class="flex justify-center items-center bg-blue-500 rounded-lg shadow-md w-[300px] h-16 mx-auto mt-12 transform hover:scale-105 transition duration-300">
-</div>
   </section>
 </template>
 
 <script setup>
 import { ref, nextTick, onMounted } from 'vue'
+
+const input = ref('')
+const messages = ref([
+  { text: 'Hello! I am your Telegram assistant 🤖', isBot: true }
+])
+
+const chatBox = ref(null)
 
 onMounted(() => {
   const script = document.createElement('script');
@@ -42,13 +48,7 @@ onMounted(() => {
   script.setAttribute('data-request-access', 'write');
   script.async = true;
   document.getElementById('telegram-login').appendChild(script);
-});
-const input = ref('')
-const messages = ref([
-  { text: 'Hello! I am your Telegram assistant 🤖', isBot: true }
-])
-
-const chatBox = ref(null)
+})
 
 function sendMessage() {
   if (input.value.trim() === '') return
@@ -83,3 +83,99 @@ function scrollToBottom() {
   })
 }
 </script>
+
+<style scoped>
+
+.telegram {
+  padding: 2rem;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.telegram__content {
+  max-width: 600px;
+  text-align: center;
+}
+
+.telegram__title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.telegram__description {
+  font-size: 1.125rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.telegram__chat {
+  background-color: #1F2937;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.telegram__chat-window {
+  height: 300px;
+  overflow-y: auto;
+  background-color: #111827;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.telegram__message {
+  margin-bottom: 0.75rem;
+}
+
+.telegram__message--bot {
+  color: #38bdf8;
+}
+
+.telegram__message--user {
+  color: #34D399;
+}
+
+.telegram__message-sender {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.telegram__form {
+  display: flex;
+  gap: 1rem;
+}
+
+.telegram__input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #374151;
+  color: white;
+}
+
+.telegram__button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background-color: #38bdf8;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.telegram__button:hover {
+  background-color: #0ea5e9;
+}
+
+.telegram__login {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  background-color: #0ea5e9;
+  border-radius: 10px;
+  cursor: pointer;
+}
+</style>
