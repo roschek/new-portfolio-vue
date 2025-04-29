@@ -70,7 +70,7 @@ onMounted(() => {
 
   const script = document.createElement('script')
   script.src = 'https://telegram.org/js/telegram-widget.js?22'
-  script.setAttribute('data-telegram-login', 'YOUR_BOT_USERNAME')
+  script.setAttribute('data-telegram-login', 'sendHiFromPortfolioBot')
   script.setAttribute('data-size', 'large')
   script.setAttribute('data-userpic', 'false')
   script.setAttribute('data-onauth', 'handleTelegramAuth') 
