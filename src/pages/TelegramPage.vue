@@ -159,9 +159,7 @@
             </li>
           </ul>
         </div>
-      </div>
-      
-      <!-- Auth Section -->
+      </div>      
       <div class="telegram__auth-section">
         <h3>Try Telegram Auth</h3>
         <p>Experience seamless authentication through Telegram's secure login widget:</p>
@@ -189,25 +187,21 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 
-// Auth state
 const loggedIn = ref(false)
 const userData = ref({})
 const telegramButton = ref(null)
 
-// Chat state
 const chatBox = ref(null)
 const isTyping = ref(false)
 const userInput = ref('')
 const visibleMessages = ref([])
 
-// Command buttons
 const commandButtons = [
   { text: '/start', command: '/start' },
   { text: '/help', command: '/help' },
   { text: '/features', command: '/features' }
 ]
 
-// Predefined bot responses
 const botResponses = {
   '/start': {
     type: 'buttons',
@@ -252,13 +246,11 @@ const botResponses = {
   }
 }
 
-// Get current time in HH:MM format
 function getCurrentTime() {
   const now = new Date()
   return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
 }
 
-// Send command to bot
 function sendBotCommand(command) {
   if (isTyping.value) return
   
@@ -275,7 +267,6 @@ function sendBotCommand(command) {
   simulateBotResponse(command)
 }
 
-// Send user message
 function sendUserMessage() {
   if (!userInput.value.trim() || isTyping.value) return
   
@@ -295,7 +286,6 @@ function sendUserMessage() {
   simulateBotResponse(userCommand)
 }
 
-// Simulate bot response with typing indicator
 function simulateBotResponse(command) {
   isTyping.value = true
   scrollToBottom()
@@ -312,10 +302,9 @@ function simulateBotResponse(command) {
     
     visibleMessages.value.push(botMessage)
     scrollToBottom()
-  }, 1000 + Math.random() * 1000) // Random delay between 1-2 seconds
+  }, 1000 + Math.random() * 1000) 
 }
 
-// Scroll chat to bottom
 function scrollToBottom() {
   nextTick(() => {
     if (chatBox.value) {
@@ -324,7 +313,6 @@ function scrollToBottom() {
   })
 }
 
-// Handle Telegram auth
 function handleTelegramAuth(user) {
   if (!user || !user.id) {
     console.warn('No user data received from Telegram')
@@ -334,11 +322,9 @@ function handleTelegramAuth(user) {
   userData.value = user
   loggedIn.value = true
   
-  // Send auth data to backend
   sendAuthToServer(user)
 }
 
-// Send auth data to server with proper error handling
 async function sendAuthToServer(user) {
   try {
     const response = await fetch('/api/telegram-auth', {
@@ -355,20 +341,16 @@ async function sendAuthToServer(user) {
     const data = await response.json()
     console.log('Auth successful:', data)
     
-    // You can trigger additional actions here after successful auth
     simulateBotResponse('/auth-success')
   } catch (error) {
     console.error('Failed to send auth to server:', error)
-    // Still keep the user logged in on frontend even if server request fails
   }
 }
 
-// Log out from Telegram auth
 function logOut() {
   userData.value = {}
   loggedIn.value = false
   
-  // Optionally notify server about logout
   try {
     fetch('/api/telegram-logout', {
       method: 'POST',
@@ -379,12 +361,12 @@ function logOut() {
   }
 }
 
-// Initialize Telegram auth widget
+
 function initTelegramLogin() {
   if (!telegramButton.value) return
   
   try {
-    // Clear previous content
+    
     telegramButton.value.innerHTML = ''
     
     const script = document.createElement('script')
@@ -396,7 +378,6 @@ function initTelegramLogin() {
     script.setAttribute('data-request-access', 'write')
     script.async = true
     
-    // Add error handling
     script.onerror = () => {
       telegramButton.value.innerHTML = `
         <div class="telegram__auth-error">
@@ -410,7 +391,6 @@ function initTelegramLogin() {
     
     telegramButton.value.appendChild(script)
     
-    // Set global handler for the widget
     window.handleTelegramAuth = handleTelegramAuth
   } catch (error) {
     console.error('Error initializing Telegram login widget:', error)
@@ -428,18 +408,16 @@ function initTelegramLogin() {
   }
 }
 
-// Send initial /start message when component is mounted
+
 onMounted(() => {
-  // Initialize Telegram login
+  
   initTelegramLogin()
   
-  // Send initial bot message after a slight delay
   setTimeout(() => {
     simulateBotResponse('/start')
   }, 500)
 })
 
-// Clean up when component is unmounted
 onUnmounted(() => {  
   delete window.handleTelegramAuth
 })
@@ -494,7 +472,6 @@ onUnmounted(() => {
   line-height: 1.6;
 }
 
-/* Features */
 .telegram__features {
   display: flex;
   gap: 1.5rem;
@@ -541,7 +518,6 @@ onUnmounted(() => {
   line-height: 1.5;
 }
 
-/* Demo Section */
 .telegram__demo {
   display: flex;
   gap: 2rem;
@@ -818,7 +794,6 @@ onUnmounted(() => {
   line-height: 1.6;
 }
 
-/* Auth section */
 .telegram__auth-section {
   background-color: rgba(31, 41, 55, 0.5);
   padding: 2rem;
@@ -894,7 +869,6 @@ onUnmounted(() => {
   text-decoration: underline;
 }
 
-/* Animations */
 @keyframes messageIn {
   from {
     opacity: 0;
@@ -917,7 +891,6 @@ onUnmounted(() => {
   }
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .telegram__demo {
     flex-direction: column;
