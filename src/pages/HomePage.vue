@@ -40,10 +40,7 @@
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
               </svg>
-            </a>
-            <a href="mailto:roscheka@gmail.com" class="home__button home__button--secondary">
-              Contact Me
-            </a>
+            </a>            
           </nav>
 
           <ul class="home__socials">
@@ -61,31 +58,7 @@
           </ul>
         </header>
 
-        <aside class="home__profile">
-          <div class="home__profile-container">
-            <figure class="home__profile-image-container">
-              <div class="home__profile-image-backdrop"></div>
-              <div class="home__profile-image" role="img" aria-label="Profile image of Aleksei Kagan"></div>
-            </figure>
-            
-            <ul class="home__stats">
-              <li 
-                v-for="(stat, index) in stats" 
-                :key="index" 
-                class="home__stat"
-                :style="{ animationDelay: (index * 0.1 + 0.2) + 's' }"
-              >
-                <strong class="home__stat-value">{{ stat.value }}</strong>
-                <span class="home__stat-label">{{ stat.label }}</span>
-              </li>
-            </ul>
-          </div>
-        </aside>
-      </article>
-    </section>
-    
-    <section id="about" class="home__about">
-      <div class="home__about-container">
+        
         <article class="home__about-intro">
           <h2 class="home__section-title">About Me</h2>
           <div class="home__about-content">
@@ -106,7 +79,10 @@
             </div>
           </div>
         </article>
-
+      </article>
+    </section>    
+    <section id="about" class="home__about">
+      <div class="home__about-container"> 
         <aside class="home__skills">
           <h3 class="home__skills-title">Core Skills</h3>
           <ul class="home__skills-grid">
@@ -130,8 +106,7 @@
           </ul>
         </aside>
       </div>
-    </section>
-    
+    </section>    
     <div class="home__scroll-indicator" aria-hidden="true">
       <div class="home__scroll-mouse">
         <div class="home__scroll-wheel"></div>
@@ -187,11 +162,6 @@ const socials = [
   }
 ]
 
-const stats = [
-  { value: '7+', label: 'Years Experience' },
-  { value: '50+', label: 'Projects' },  
-]
-
 const skills = [
   {
     name: 'JavaScript / TypeScript',
@@ -222,37 +192,6 @@ const skills = [
     name: 'API Integration',
     level: 85,
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>'
-  }
-]
-
-const projects = [
-  {
-    title: 'Payouts Dashboard',
-    description: 'A comprehensive payout management system with role-based access and real-time data visualization.',
-    technologies: ['React', 'TypeScript', 'Redux'],
-    link: '/frontend',
-    image: '/api/placeholder/500/300'
-  },
-  {
-    title: 'NFT Trading Platform',
-    description: 'Secure blockchain-based marketplace for NFT creators and collectors with wallet integration.',
-    technologies: ['Vue.js', 'Web3', 'Node.js'],
-    link: '/frontend',
-    image: '/api/placeholder/500/300'
-  },
-  {
-    title: 'AI Assistant Chatbot',
-    description: 'Intelligent customer support chatbot with natural language processing and learning capabilities.',
-    technologies: ['OpenAI', 'Next.js', 'TailwindCSS'],
-    link: '/ai',
-    image: '/api/placeholder/500/300'
-  },
-  {
-    title: 'Telegram Bot API',
-    description: 'Automated notification and management system integrated with Telegram for business workflows.',
-    technologies: ['Node.js', 'Telegram API', 'MongoDB'],
-    link: '/telegram',
-    image: '/api/placeholder/500/300'
   }
 ]
 
@@ -338,6 +277,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   max-width: 1200px;
+  gap: 50px;
   margin: 0 auto;
   flex-wrap: wrap;
 }
@@ -345,7 +285,7 @@ onBeforeUnmount(() => {
 .home__main-content {
   flex: 1;
   max-width: 600px;
-  padding: 2rem 0;
+  padding: 0;
 }
 
 .home__title {
@@ -583,6 +523,7 @@ onBeforeUnmount(() => {
 
 .home__section-title {
   font-size: 2.5rem;
+  margin-top: 3rem;
   margin-bottom: 2rem;
   position: relative;
   display: inline-block;

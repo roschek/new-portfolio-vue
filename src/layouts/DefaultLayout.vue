@@ -6,12 +6,12 @@
 
     <header class="layout__header" :class="{ 'layout__header--fixed': isScrolled }">
       <div class="layout__header-content">
-        <h1 class="layout__title">
+        <h2 class="layout__title">
           <RouterLink to="/" class="layout__logo-link">
             <span class="layout__logo-text">AK</span>
             <span class="layout__full-name">Aleksei Kagan</span>
           </RouterLink>
-        </h1>        
+        </h2>        
         <button 
           class="layout__mobile-menu-button" 
           @click="toggleMobileMenu"
