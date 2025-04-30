@@ -116,6 +116,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
+import { useThemeStore } from '../store/theme'
+
+const { isLightTheme, toggleTheme, initTheme } = useThemeStore()
 const navLinks = [
   { 
     name: 'Home', 
@@ -139,7 +142,6 @@ const navLinks = [
   }
 ]
 
-const isLightTheme = ref(false)
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const showContactButton = ref(false)
@@ -148,13 +150,7 @@ const currentYear = computed(() => new Date().getFullYear())
 
 const router = useRouter()
 
-function toggleTheme() {
-  isLightTheme.value = !isLightTheme.value
-  
-  localStorage.setItem('theme', isLightTheme.value ? 'light' : 'dark')
-  
-  document.documentElement.classList.toggle('light-theme', isLightTheme.value)
-}
+
 
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value  
@@ -188,8 +184,8 @@ watch(() => router.currentRoute.value, () => {
 
 
 onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-  
+  window.addEventListener('scroll', handleScroll)
+  initTheme()
   const savedTheme = localStorage.getItem('theme')
   
   if (savedTheme) {
@@ -557,6 +553,101 @@ onUnmounted(() => {
   animation: loading 1s infinite linear;
 }
 
+.layout__mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white; 
+  padding: 0.5rem;
+  z-index: 110;
+}
+
+.layout--light .layout__mobile-menu-button {
+  color: #1E293B;
+}
+
+.layout__burger-icon {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 6px 0;
+  background-color: currentColor;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.layout__burger-icon::before,
+.layout__burger-icon::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background-color: currentColor;
+  transition: all 0.3s ease;
+}
+
+.layout__burger-icon::before {
+  top: -8px;
+}
+
+.layout__burger-icon::after {
+  bottom: -8px;
+}
+
+.layout__burger-icon--active {
+  background-color: transparent;
+}
+
+.layout__burger-icon--active::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.layout__burger-icon--active::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+
+.layout__mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+.layout--light .layout__mobile-overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.layout__modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: flex;
+}
+
+.layout--light .layout__modal-close {
+  color: #475569;
+}
+
+.layout__modal-close:hover {
+  color: white;
+}
+
+.layout--light .layout__modal-close:hover {
+  color: #1E293B;
+}
 @keyframes slideDown {
   from {
     transform: translateY(-100%);

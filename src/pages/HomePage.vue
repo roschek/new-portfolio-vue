@@ -1,5 +1,5 @@
 <template>
-  <section class="home" ref="vantaRef">
+  <section class="home" ref="vantaRef" :class="{ 'home--light': isLightTheme }">
     <div class="home__content">      
       <div class="home__main">
         <div class="home__main-content">
@@ -186,6 +186,9 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import * as THREE from 'three'
 import WAVES from 'vanta/dist/vanta.waves.min'
+import { useThemeStore } from '../store/theme'
+
+const { isLightTheme } = useThemeStore()
 
 const vantaRef = ref(null)
 const vantaEffect = ref(null)
@@ -345,12 +348,23 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+
 .home {
   position: relative;
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
   background-color: #0F172A;
+  color: white;
+}
+
+.home--light {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #F8FAFC;
+  color: #1E293B;
 }
 
 .home__content {
@@ -425,7 +439,6 @@ onBeforeUnmount(() => {
   transform: translateY(0);
 }
 
-/* Подзаголовок */
 .home__subtitle {
   font-size: 1.25rem;
   color: #CBD5E1;
@@ -435,7 +448,6 @@ onBeforeUnmount(() => {
   gap: 0.25rem;
 }
 
-/* Кнопки призыва к действию */
 .home__cta {
   display: flex;
   gap: 1rem;
@@ -487,7 +499,6 @@ onBeforeUnmount(() => {
   color: #CBD5E1;
 }
 
-/* Социальные ссылки */
 .home__socials {
   display: flex;
   gap: 1.5rem;
@@ -517,7 +528,6 @@ onBeforeUnmount(() => {
   display: flex;
 }
 
-/* Профиль и фото */
 .home__profile {
   flex: 1;
   max-width: 450px;
@@ -593,7 +603,6 @@ onBeforeUnmount(() => {
   color: #94A3B8;
 }
 
-/* Секция "Обо мне" */
 .home__about {
   max-width: 1200px;
   margin: 6rem auto;
