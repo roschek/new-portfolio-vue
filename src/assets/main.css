@@ -36,3 +36,8 @@ a:hover {
   color: black;
     transition: color 0.3s ease;
 }
+ul, li {
+  text-decoration: none;
+  list-style: none;
+  padding: 0;
+}

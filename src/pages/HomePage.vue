@@ -1,8 +1,8 @@
 <template>
-  <section class="home" ref="vantaRef" :class="{ 'home--light': isLightTheme }">
-    <div class="home__content">      
-      <div class="home__main">
-        <div class="home__main-content">
+  <main class="home" ref="vantaRef">
+    <section class="home__hero">      
+      <article class="home__main">
+        <header class="home__main-content">
           <h1 class="home__title">
             <span
               v-for="(letter, index) in titleArray"
@@ -33,7 +33,7 @@
             <span>Powering Ideas.</span>
           </p>
 
-          <div class="home__cta">
+          <nav class="home__cta">
             <a href="#about" class="home__button home__button--primary">
               My Work
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -44,142 +44,101 @@
             <a href="mailto:roscheka@gmail.com" class="home__button home__button--secondary">
               Contact Me
             </a>
-          </div>
+          </nav>
 
-          <div class="home__socials">
-            <a 
-              v-for="(social, index) in socials" 
-              :key="index"
-              :href="social.url" 
-              target="_blank" 
-              class="home__social-link"
-              :aria-label="social.name"
-              :style="{ animationDelay: (index * 0.1 + 0.5) + 's' }"
-            >
-              <span class="home__social-icon" v-html="social.icon"></span>
-            </a>
-          </div>
-        </div>
+          <ul class="home__socials">
+            <li v-for="(social, index) in socials" :key="index">
+              <a 
+                :href="social.url" 
+                target="_blank" 
+                class="home__social-link"
+                :aria-label="social.name"
+                :style="{ animationDelay: (index * 0.1 + 0.5) + 's' }"
+              >
+                <span class="home__social-icon" v-html="social.icon"></span>
+              </a>
+            </li>
+          </ul>
+        </header>
 
-        <div class="home__profile">
+        <aside class="home__profile">
           <div class="home__profile-container">
-            <div class="home__profile-image-container">
+            <figure class="home__profile-image-container">
               <div class="home__profile-image-backdrop"></div>
-              <div class="home__profile-image"></div>
-            </div>
+              <div class="home__profile-image" role="img" aria-label="Profile image of Aleksei Kagan"></div>
+            </figure>
             
-            <div class="home__stats">
-              <div 
+            <ul class="home__stats">
+              <li 
                 v-for="(stat, index) in stats" 
                 :key="index" 
                 class="home__stat"
                 :style="{ animationDelay: (index * 0.1 + 0.2) + 's' }"
               >
-                <div class="home__stat-value">{{ stat.value }}</div>
-                <div class="home__stat-label">{{ stat.label }}</div>
-              </div>
-            </div>
+                <strong class="home__stat-value">{{ stat.value }}</strong>
+                <span class="home__stat-label">{{ stat.label }}</span>
+              </li>
+            </ul>
           </div>
-        </div>
-      </div>
-      <div id="about" class="home__about">
-        <div class="home__about-container">
-          <div class="home__about-intro">
-            <h2 class="home__section-title">About Me</h2>
-            <div class="home__about-content">
-              <p class="home__text">
-                Hi, I'm Aleksei Kagan — Senior Frontend and Fullstack Developer with over 7 years of experience building high-performance web applications.
-              </p>
-              <p class="home__text">
-                I specialize in creating responsive, user-friendly interfaces using modern frameworks like React and Vue.js, backed by robust Node.js solutions. My passion lies at the intersection of technology and user experience, focusing on creating applications that not only function flawlessly but also delight users.
-              </p>
-              <p class="home__text">
-                When I'm not coding, I enjoy exploring new technologies, contributing to open source, and mentoring junior developers. I believe in continuous learning and always staying ahead of industry trends.
-              </p>
+        </aside>
+      </article>
+    </section>
+    
+    <section id="about" class="home__about">
+      <div class="home__about-container">
+        <article class="home__about-intro">
+          <h2 class="home__section-title">About Me</h2>
+          <div class="home__about-content">
+            <p class="home__text">
+              Hi, I'm Aleksei Kagan — Senior Frontend and Fullstack Developer with over 7 years of experience building high-performance web applications.
+            </p>
+            <p class="home__text">
+              I specialize in creating responsive, user-friendly interfaces using modern frameworks like React and Vue.js, backed by robust Node.js solutions. My passion lies at the intersection of technology and user experience, focusing on creating applications that not only function flawlessly but also delight users.
+            </p>
+            <p class="home__text">
+              When I'm not coding, I enjoy exploring new technologies, contributing to open source, and mentoring junior developers. I believe in continuous learning and always staying ahead of industry trends.
+            </p>
 
-              <div class="home__about-cta">
-                <a href="/frontend" class="home__button home__button--secondary">
-                  View My Work
-                </a>
-                <!-- <a href="/files/resume.pdf" download class="home__button home__button--outline">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  Download CV
-                </a> -->
-              </div>
-            </div>
-          </div>
-
-          <div class="home__skills">
-            <h3 class="home__skills-title">Core Skills</h3>
-            <div class="home__skills-grid">
-              <div 
-                v-for="(skill, index) in skills" 
-                :key="index" 
-                class="home__skill"
-                :style="{ animationDelay: (index * 0.05) + 's' }"
-              >
-                <div class="home__skill-icon" v-html="skill.icon"></div>
-                <div class="home__skill-info">
-                  <h4 class="home__skill-name">{{ skill.name }}</h4>
-                  <div class="home__skill-level">
-                    <div 
-                      class="home__skill-progress" 
-                      :style="{ width: skill.level + '%' }"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="home__projects">
-        <h2 class="home__section-title">Featured Projects</h2>
-        <div class="home__projects-grid">
-          <div 
-            v-for="(project, index) in projects" 
-            :key="index"
-            class="home__project"
-            :style="{ animationDelay: (index * 0.1) + 's' }"
-          >
-            <div class="home__project-content">
-              <h3 class="home__project-title">{{ project.title }}</h3>
-              <p class="home__project-description">{{ project.description }}</p>
-              <div class="home__project-techs">
-                <span 
-                  v-for="(tech, techIndex) in project.technologies" 
-                  :key="techIndex"
-                  class="home__project-tech"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-              <a :href="project.link" class="home__project-link">
-                Learn More
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+            <div class="home__about-cta">
+              <a href="/frontend" class="home__button home__button--secondary">
+                View My Work
               </a>
             </div>
-            <div class="home__project-image" :style="{ backgroundImage: `url(${project.image})` }">
-              <div class="home__project-overlay"></div>
-            </div>
           </div>
-        </div>
-      </div> -->
-    </div>
-    <div class="home__scroll-indicator">
+        </article>
+
+        <aside class="home__skills">
+          <h3 class="home__skills-title">Core Skills</h3>
+          <ul class="home__skills-grid">
+            <li 
+              v-for="(skill, index) in skills" 
+              :key="index" 
+              class="home__skill"
+              :style="{ animationDelay: (index * 0.05) + 's' }"
+            >
+              <div class="home__skill-icon" v-html="skill.icon" aria-hidden="true"></div>
+              <div class="home__skill-info">
+                <h4 class="home__skill-name">{{ skill.name }}</h4>
+                <div class="home__skill-level" role="progressbar" :aria-valuenow="skill.level" aria-valuemin="0" aria-valuemax="100">
+                  <div 
+                    class="home__skill-progress" 
+                    :style="{ width: skill.level + '%' }"
+                  ></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+    
+    <div class="home__scroll-indicator" aria-hidden="true">
       <div class="home__scroll-mouse">
         <div class="home__scroll-wheel"></div>
       </div>
       <div class="home__scroll-text">Scroll Down</div>
     </div>
-  </section>
+  </main>
 </template>
 
 <script setup>
@@ -587,6 +546,8 @@ onBeforeUnmount(() => {
 }
 
 .home__stat {
+  display: flex;
+  align-items: center;
   text-align: center;
   opacity: 0;
   animation: slide-up 0.5s forwards;
