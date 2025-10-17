@@ -74,7 +74,7 @@
 
             <div class="home__about-cta">
               <a href="/frontend" class="home__button home__button--secondary">
-                View My Work
+                View My Work and projects
               </a>
             </div>
           </div>

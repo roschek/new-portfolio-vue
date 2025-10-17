@@ -110,6 +110,19 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 
 const jobs = [
+{
+    position: 'Creator / Fullstack Developer',
+    company: 'ProfileNexus (AI Resume Builder)',
+    path: 'https://app.alex-kagan-develop.com/',
+    period: '2024 - Present',
+    achievements: [
+      'Engineered a full-stack AI application to generate job-specific resumes and cover letters.',
+      'Developed a robust Python (FastAPI) backend with asynchronous task processing for AI generation.',
+      'Built a responsive and localized (i18n) web-client using Flutter/Dart.',
+      'Configured and deployed the entire infrastructure using a CI/CD pipeline on Vercel and Render.',
+    ],
+    technologies: ['Flutter', 'Dart', 'Python', 'FastAPI', 'Gemini API', 'Vercel', 'Render', 'CI/CD'],
+  },
   {
     position: 'Senior Frontend Developer',
     company: 'payouts.com',

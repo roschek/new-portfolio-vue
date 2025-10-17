@@ -33,8 +33,17 @@
             <span class="layout__nav-icon" v-html="link.icon"></span>
             <span class="layout__nav-text">{{ link.name }}</span>
           </RouterLink>
-
-         
+          <a href="https://app.alex-kagan-develop.com" target="_blank" rel="noopener noreferrer" class="layout__nav-link">
+  <span class="layout__nav-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9s-9-4.03-9-9a9 9 0 0 1 9-9z"></path>
+      <path d="M9 9h6v6H9z"></path>
+      <path d="m8 14-2-2 2-2"></path>
+      <path d="m16 10 2 2-2 2"></path>
+    </svg>
+  </span>
+  <span class="layout__nav-text">AI Resume Builder</span>
+</a>
           <button @click="toggleTheme" class="layout__theme-toggle">
             <span v-if="isLightTheme" class="layout__theme-icon">
               
