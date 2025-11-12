@@ -4,6 +4,7 @@ import FrontendPage from "../pages/FrontendPage.vue";
 import TelegramPage from "../pages/TelegramPage.vue";
 import AIPage from "../pages/AIPage.vue";
 import CodeLabPage from "../pages/CodeLabPage.vue";
+import PrivacyPolicyPage from "../pages/PrivacyPolicyPage.vue";
 
 const routes = [
   { path: "/", component: HomePage },
@@ -11,6 +12,7 @@ const routes = [
   { path: "/telegram", component: TelegramPage },
   { path: "/ai", component: AIPage },
   { path: "/codelab", component: CodeLabPage },
+  { path: "/privacy-policy", component: PrivacyPolicyPage },
 ];
 
 const router = createRouter({
