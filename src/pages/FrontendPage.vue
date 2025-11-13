@@ -40,6 +40,13 @@
           <div class="experience__card-content">
             <div>
               <h3 class="experience__position">{{ job.position }}</h3>
+              <img 
+                v-if="job.icon" 
+                :src="job.icon" 
+                :alt="job.company + ' logo'" 
+                class="experience__logo"
+                loading="lazy"
+              />
               <template v-if="job.path">
                 <a :href="job.path" class="experience__company" target="_blank" rel="noopener">
                   {{ job.company }} | {{ job.period }}
@@ -110,6 +117,19 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 
 const jobs = [
+  {
+    position: 'Creator / Mobile App Developer',
+    company: 'iSolace: Private AI Companion',
+    path: 'https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog',
+    period: '2025 - Present',
+    icon: '/images/isolace-icon.png',
+    achievements: [
+      'Built a private AI companion app with end‑to‑end encryption (E2EE).',
+      'Implemented continuous memory to carry context across sessions.',
+      'Added voice and text interaction with fast, direct responses.'
+    ],
+    technologies: ['Android', 'AI', 'E2EE', 'Voice'],
+  },
 {
     position: 'Creator / Fullstack Developer',
     company: 'ProfileNexus (AI Resume Builder)',
@@ -531,6 +551,15 @@ onMounted(() => {
 .experience__resume-button:hover {
   background-color: #1D4ED8;
   transform: translateY(-2px);
+}
+
+.experience__logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  margin: 0.25rem 0 0.75rem 0;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 768px) {
