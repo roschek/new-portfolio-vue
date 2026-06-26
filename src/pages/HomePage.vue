@@ -1,136 +1,128 @@
 <template>
-  <main class="home" ref="vantaRef">
-    <section class="home__hero">      
-      <article class="home__main">
-        <header class="home__main-content">
-          <h1 class="home__title">
+  <main class="home" :class="{ 'home--ready': isReady }">
+
+    <!-- ── Hero ────────────────────────────────────────────────────────── -->
+    <section class="home__hero">
+      <div class="home__hero-inner">
+
+        <div class="home__rule home__rule--top"></div>
+
+        <h1 class="home__name t-display">Aleksei Kagan</h1>
+
+        <div class="home__rule home__rule--bottom"></div>
+
+        <div class="home__tagline">
+          <div class="home__typewriter">
             <span
-              v-for="(letter, index) in titleArray"
+              v-for="(role, index) in roles"
               :key="index"
-              class="home__title-letter"
-              :style="{ animationDelay: (index * 0.05) + 's' }"
+              :class="['home__role', { 'home__role--active': currentRoleIndex === index }]"
             >
-              <template v-if="letter === ' '">&nbsp;</template>
-              <template v-else>{{ letter }}</template>
+              {{ role }}
             </span>
-          </h1>
-
-          <div class="home__tagline">            
-            <div class="home__typewriter">
-              <span
-                v-for="(role, index) in roles"
-                :key="index"
-                :class="['home__role', { 'home__role--active': currentRoleIndex === index }]"
-              >
-                {{ role }}
-              </span>
-            </div>
           </div>
+        </div>
 
-          <p class="home__subtitle">
-            <span>Creating Interfaces.</span>
-            <span>Automating Workflows.</span>
-            <span>Powering Ideas.</span>
+        <p class="home__subtitle">
+          <span>Creating Interfaces.</span>
+          <span>Automating Workflows.</span>
+          <span>Powering Ideas.</span>
+        </p>
+
+        <div class="home__availability">
+          <span class="home__badge home__badge--open">Open to full-time</span>
+          <span class="home__badge">Available for consulting</span>
+        </div>
+
+        <nav class="home__cta">
+          <a href="#about" class="home__button home__button--primary">
+            My Stack
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+          <a href="/frontend" class="home__button home__button--secondary">
+            Work &amp; Projects
+          </a>
+        </nav>
+
+        <ul class="home__socials">
+          <li v-for="(social, index) in socials" :key="index">
+            <a
+              :href="social.url"
+              target="_blank"
+              class="home__social-link"
+              :aria-label="social.name"
+            >
+              <span class="home__social-icon" v-html="social.icon"></span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- ── About ───────────────────────────────────────────────────────── -->
+    <section class="home__about-section">
+      <div class="home__about-inner">
+        <article class="home__about-text">
+          <h2 class="home__section-title t-h1">About Me</h2>
+          <p class="home__text">
+            7 years building products end-to-end — React and Vue frontends, Node.js APIs,
+            and AI-powered features shipped to real users.
           </p>
-
-          <nav class="home__cta">
-            <a href="#about" class="home__button home__button--primary">
-              My Skills
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
+          <p class="home__text">
+            Currently shipping two own products:
+            <a href="https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog" target="_blank" rel="noopener">iSolace</a>
+            — a private AI companion app with E2E encryption — and
+            <a href="https://app.alex-kagan-develop.com" target="_blank" rel="noopener">ProfileNexus</a>
+            — an AI resume builder, live in production.
+          </p>
+          <p class="home__text">
+            Available for senior full-time roles and consulting in full-stack development
+            and AI integration.
+          </p>
+          <div class="home__about-cta">
+            <a href="mailto:roscheka@gmail.com" class="home__button home__button--primary">
+              Let's talk
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
-            </a>            
-          </nav>
-
-          <ul class="home__socials">
-            <li v-for="(social, index) in socials" :key="index">
-              <a 
-                :href="social.url" 
-                target="_blank" 
-                class="home__social-link"
-                :aria-label="social.name"
-                :style="{ animationDelay: (index * 0.1 + 0.5) + 's' }"
-              >
-                <span class="home__social-icon" v-html="social.icon"></span>
-              </a>
-            </li>
-          </ul>
-        </header>
-
-        
-        <article class="home__about-intro">
-          <h2 class="home__section-title">About Me</h2>
-          <div class="home__about-content">
-            <p class="home__text">
-              Hi, I'm Aleksei Kagan — Senior Frontend and Fullstack Developer with over 7 years of experience building high-performance web applications.
-            </p>
-            <p class="home__text">
-              I specialize in creating responsive, user-friendly interfaces using modern frameworks like React and Vue.js, backed by robust Node.js solutions. My passion lies at the intersection of technology and user experience, focusing on creating applications that not only function flawlessly but also delight users.
-            </p>
-            <p class="home__text">
-              When I'm not coding, I enjoy exploring new technologies, contributing to open source, and mentoring junior developers. I believe in continuous learning and always staying ahead of industry trends.
-            </p>
-
-            <div class="home__about-cta">
-              <a href="/frontend" class="home__button home__button--secondary">
-                View My Work and projects
-              </a>
-            </div>
+            </a>
+            <a href="/frontend" class="home__button home__button--secondary">
+              Work &amp; Projects
+            </a>
           </div>
         </article>
-      </article>
-    </section>    
-    <section id="about" class="home__about">
-      <div class="home__about-container"> 
-        <aside class="home__skills">
-          <h3 class="home__skills-title">Core Skills</h3>
-          <ul class="home__skills-grid">
-            <li 
-              v-for="(skill, index) in skills" 
-              :key="index" 
-              class="home__skill"
-              :style="{ animationDelay: (index * 0.05) + 's' }"
-            >
-              <div class="home__skill-icon" v-html="skill.icon" aria-hidden="true"></div>
-              <div class="home__skill-info">
-                <h4 class="home__skill-name">{{ skill.name }}</h4>
-                <div class="home__skill-level" role="progressbar" :aria-valuenow="skill.level" aria-valuemin="0" aria-valuemax="100">
-                  <div 
-                    class="home__skill-progress" 
-                    :style="{ width: skill.level + '%' }"
-                  ></div>
-                </div>
-              </div>
-            </li>
-          </ul>
+
+        <aside id="about" class="home__stack">
+          <div
+            v-for="group in techStack"
+            :key="group.label"
+            class="home__stack-group"
+          >
+            <h3 class="home__stack-label t-label">{{ group.label }}</h3>
+            <ul class="home__stack-tags">
+              <li v-for="tag in group.tags" :key="tag" class="home__stack-tag">
+                {{ tag }}
+              </li>
+            </ul>
+          </div>
         </aside>
       </div>
-    </section>    
-    <div class="home__scroll-indicator" aria-hidden="true">
-      <div class="home__scroll-mouse">
-        <div class="home__scroll-wheel"></div>
-      </div>
-      <div class="home__scroll-text">Scroll Down</div>
-    </div>
+    </section>
+
   </main>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import * as THREE from 'three'
-import WAVES from 'vanta/dist/vanta.waves.min'
-import { useThemeStore } from '../store/theme'
 
-const { isLightTheme } = useThemeStore()
+const isReady = ref(false)
 
-const vantaRef = ref(null)
-const vantaEffect = ref(null)
-
-const title = 'Hi, I am Aleksei Kagan'
-const titleArray = title.split('')
-
-const roles = ['Frontend Developer', 'Vue.js Expert', 'React Specialist', 'UI/UX Enthusiast', 'Fullstack Engineer']
+const roles = ['Frontend Developer', 'Vue.js Expert', 'React Specialist', 'AI Integration Engineer', 'Fullstack Engineer']
 const currentRoleIndex = ref(0)
 const roleInterval = ref(null)
 
@@ -138,60 +130,46 @@ const socials = [
   {
     name: 'LinkedIn',
     url: 'https://linkedin.com/in/alexey-kagan',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
   },
   {
     name: 'GitHub',
     url: 'https://github.com/roschek',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>'
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>'
   },
   {
     name: 'Telegram',
     url: 'https://t.me/roschek',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .67 4.302l16.5 7.5a2.25 2.25 0 0 0 3.052-2.118V4.535a2.242 2.242 0 0 0-2.7-2.102z"></path><path d="M10.002 16.5L15.5 12l-5.5-4.5v9z"></path></svg>'
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .67 4.302l16.5 7.5a2.25 2.25 0 0 0 3.052-2.118V4.535a2.242 2.242 0 0 0-2.7-2.102z"></path><path d="M10.002 16.5L15.5 12l-5.5-4.5v9z"></path></svg>'
   },
   {
     name: 'WhatsApp',
     url: 'https://wa.me/972539310707',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>'
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>'
   },
   {
     name: 'Email',
     url: 'mailto:roscheka@gmail.com',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>'
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>'
   }
 ]
 
-const skills = [
+const techStack = [
   {
-    name: 'JavaScript / TypeScript',
-    level: 95,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
+    label: 'Frontend',
+    tags: ['React', 'Vue.js 3', 'TypeScript', 'Redux', 'CSS / SASS', 'Vite']
   },
   {
-    name: 'React',
-    level: 90,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>'
+    label: 'Backend',
+    tags: ['Node.js', 'Python', 'FastAPI', 'Nest.js', 'MongoDB', 'REST APIs']
   },
   {
-    name: 'Vue.js',
-    level: 95,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>'
+    label: 'AI & APIs',
+    tags: ['OpenAI API', 'Gemini API', 'LangChain', 'Stable Diffusion', 'Prompt Engineering']
   },
   {
-    name: 'Node.js',
-    level: 85,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
-  },
-  {
-    name: 'CSS / SASS',
-    level: 90,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>'
-  },
-  {
-    name: 'API Integration',
-    level: 85,
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>'
+    label: 'Mobile & Tools',
+    tags: ['Flutter', 'Android', 'Vercel', 'CI/CD', 'Git', 'Docker']
   }
 ]
 
@@ -201,123 +179,124 @@ function startRoleAnimation() {
   }, 3000)
 }
 
-function scrollToSection(target) {
-  const element = document.querySelector(target)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
 onMounted(() => {
-  
-  if (!vantaEffect.value) {
-    vantaEffect.value = WAVES({
-      el: vantaRef.value,
-      THREE,
-      color: 0x38bdf8,
-      shininess: 60,
-      waveHeight: 15,
-      waveSpeed: 1.2,
-      zoom: 0.9,
-      mouseControls: true,
-      touchControls: true,
-    })
-  }
+  // Trigger animations on next frame so CSS transitions fire
+  requestAnimationFrame(() => {
+    isReady.value = true
+  })
 
   startRoleAnimation()
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
       e.preventDefault()
-      scrollToSection(this.getAttribute('href'))
+      const el = document.querySelector(this.getAttribute('href'))
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
     })
   })
 })
 
-onBeforeUnmount(() => {  
-  if (roleInterval.value) {
-    clearInterval(roleInterval.value)
-  }
-
-  if (vantaEffect.value) {
-    vantaEffect.value.destroy()
-  }
+onBeforeUnmount(() => {
+  if (roleInterval.value) clearInterval(roleInterval.value)
 })
 </script>
 
 <style scoped>
-
 .home {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #0F172A;
-  color: white;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
-.home--light {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #F8FAFC;
-  color: #1E293B;
-}
-
-.home__content {
-  position: relative;
-  z-index: 10;
-  padding: 0 2rem;
-}
-
-.home__main {
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.home__hero {
   min-height: 90vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  gap: 50px;
+  padding: 4rem 2rem 3rem;
+}
+
+.home__hero-inner {
+  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
-  flex-wrap: wrap;
 }
 
-.home__main-content {
-  flex: 1;
-  max-width: 600px;
-  padding: 0;
+/* Ruled lines — animate on .home--ready */
+.home__rule {
+  height: 1px;
+  background-color: var(--accent);
+  width: 0;
+  transition: width 0s; /* overridden below */
 }
 
-.home__title {
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  white-space: nowrap;
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__rule {
+    animation: extend-rule 0.5s ease-out forwards;
+  }
+
+  .home--ready .home__rule--bottom {
+    animation-delay: 0.05s;
+  }
 }
 
-.home__title-letter {
-  display: inline-block;
+@media (prefers-reduced-motion: reduce) {
+  .home__rule {
+    width: 100%;
+  }
+}
+
+@keyframes extend-rule {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Name */
+.home__name {
+  margin: 1.25rem 0;
+  color: var(--text);
   opacity: 0;
-  animation: fade-in 0.5s forwards;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__name {
+    animation: drop-in 0.45s ease-out 0.5s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__name { opacity: 1; }
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tagline / typewriter */
 .home__tagline {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  opacity: 0;
 }
 
-.home__tagline-prefix {
-  color: #94A3B8;
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__tagline {
+    animation: fade-up 0.4s ease-out 0.85s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__tagline { opacity: 1; }
 }
 
 .home__typewriter {
   position: relative;
-  height: 1.5em;
+  height: 1.6em;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -326,11 +305,13 @@ onBeforeUnmount(() => {
 .home__role {
   position: absolute;
   left: 0;
-  color: #38BDF8;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
   font-weight: 500;
+  color: var(--accent);
   opacity: 0;
   transform: translateY(1em);
-  transition: opacity 0.5s, transform 0.5s;
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .home__role--active {
@@ -338,531 +319,288 @@ onBeforeUnmount(() => {
   transform: translateY(0);
 }
 
+/* Subtitle */
 .home__subtitle {
-  font-size: 1.25rem;
-  color: #CBD5E1;
-  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.15rem;
+  margin: 1.25rem 0 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-muted);
+  opacity: 0;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__subtitle {
+    animation: fade-up 0.4s ease-out 1s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__subtitle { opacity: 1; }
+}
+
+/* Availability badges */
+.home__availability {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__availability {
+    animation: fade-up 0.4s ease-out 0.95s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__availability { opacity: 1; }
+}
+
+.home__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--bg-border);
+  padding: 0.35rem 0.8rem;
+  border-radius: 2rem;
+}
+
+.home__badge--open {
+  color: var(--text);
+  border-color: #4ade80;
+}
+
+.home__badge--open::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #4ade80;
+  flex-shrink: 0;
+}
+
+/* CTA */
 .home__cta {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  opacity: 0;
 }
 
-.home__button {
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__cta {
+    animation: fade-up 0.4s ease-out 1.15s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__cta { opacity: 1; }
+}
+
+/* Socials */
+.home__socials {
   display: flex;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home--ready .home__socials {
+    animation: fade-up 0.4s ease-out 1.3s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__socials { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Buttons */
+.home__button {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .home__button--primary {
-  background-color: #2563EB;
-  color: white;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 .home__button--primary:hover {
-  background-color: #1D4ED8;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+  background-color: var(--accent-hi);
+  color: var(--bg);
+  transform: translateY(-1px);
 }
 
 .home__button--secondary {
-  background-color: rgba(203, 213, 225, 0.1);
-  color: #CBD5E1;
-  border: 1px solid rgba(203, 213, 225, 0.2);
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--bg-border);
 }
 
 .home__button--secondary:hover {
-  background-color: rgba(203, 213, 225, 0.15);
-  color: white;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.home__button--outline {
-  background-color: transparent;
-  color: #94A3B8;
-  border: 1px solid #94A3B8;
-}
-
-.home__button--outline:hover {
-  background-color: rgba(148, 163, 184, 0.1);
-  color: #CBD5E1;
-}
-
-.home__socials {
-  display: flex;
-  gap: 1.5rem;
-}
-
+/* Social links */
 .home__social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
-  background-color: rgba(203, 213, 225, 0.1);
-  color: #94A3B8;
-  transition: all 0.3s ease;
-  opacity: 0;
-  animation: slide-up 0.5s forwards;
+  border: 1px solid var(--bg-border);
+  color: var(--text-muted);
+  transition: all 0.2s ease;
 }
 
 .home__social-link:hover {
-  background-color: #2563EB;
-  color: white;
-  transform: translateY(-3px);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
 }
 
 .home__social-icon {
   display: flex;
 }
 
-.home__profile {
-  flex: 1;
-  max-width: 450px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 0;
+/* ─── About / Skills section ─────────────────────────────────────────────── */
+.home__about-section {
+  padding: 5rem 2rem 6rem;
+  border-top: 1px solid var(--line);
 }
 
-.home__profile-container {
-  position: relative;
-  width: 100%;
-}
-
-.home__profile-image-container {
-  position: relative;
-  width: 350px;
-  height: 350px;
-  border-radius: 1rem;
-  overflow: hidden;
+.home__about-inner {
+  max-width: 1100px;
   margin: 0 auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-}
-
-.home__profile-image-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #2563EB, #38BDF8);
-  z-index: 1;
-}
-
-.home__profile-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/api/placeholder/400/400');
-  background-size: cover;
-  background-position: center;
-  z-index: 2;
-  mix-blend-mode: luminosity;
-  transition: mix-blend-mode 0.3s ease;
-}
-
-.home__profile-image:hover {
-  mix-blend-mode: normal;
-}
-
-.home__stats {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 2rem;
-}
-
-.home__stat {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  opacity: 0;
-  animation: slide-up 0.5s forwards;
-}
-
-.home__stat-value {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #38BDF8;
-}
-
-.home__stat-label {
-  font-size: 0.875rem;
-  color: #94A3B8;
-}
-
-.home__about {
-  max-width: 1200px;
-  margin: 6rem auto;
-  padding: 3rem 0;
-}
-
-.home__about-container {
-  display: flex;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-
-.home__about-intro {
-  flex: 1;
-  min-width: 300px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
 }
 
 .home__section-title {
-  font-size: 2.5rem;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
+  padding-bottom: 0.75rem;
 }
 
 .home__section-title::after {
   content: '';
   position: absolute;
-  bottom: -0.5rem;
+  bottom: 0;
   left: 0;
-  width: 50%;
-  height: 3px;
-  background: linear-gradient(to right, #2563EB, transparent);
-  border-radius: 3px;
-}
-
-.home__about-content {
-  color: #CBD5E1;
-  font-size: 1rem;
-  line-height: 1.7;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--accent);
 }
 
 .home__text {
-  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
 }
 
 .home__about-cta {
-  display: flex;
-  gap: 1rem;
   margin-top: 2rem;
 }
 
-.home__skills {
-  flex: 1;
-  min-width: 300px;
-}
-
-.home__skills-title {
-  font-size: 1.75rem;
-  margin-bottom: 2rem;
-  color: #E2E8F0;
-}
-
-.home__skills-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.home__skill {
+/* Tech stack */
+.home__stack {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: rgba(31, 41, 55, 0.5);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  animation: slide-up 0.5s forwards;
+  flex-direction: column;
+  gap: 1.75rem;
 }
 
-.home__skill:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-  background-color: rgba(36, 59, 85, 0.5);
+.home__stack-label {
+  margin-bottom: 0.75rem;
 }
 
-.home__skill-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.5rem;
-  background-color: rgba(37, 99, 235, 0.2);
-  color: #38BDF8;
-}
-
-.home__skill-info {
-  flex: 1;
-}
-
-.home__skill-name {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #E2E8F0;
-}
-
-.home__skill-level {
-  height: 0.5rem;
-  width: 100%;
-  background-color: rgba(148, 163, 184, 0.2);
-  border-radius: 1rem;
-  overflow: hidden;
-}
-
-.home__skill-progress {
-  height: 100%;
-  background: linear-gradient(90deg, #2563EB, #38BDF8);
-  border-radius: 1rem;
-  transition: width 1.5s ease-in-out;
-}
-
-.home__projects {
-  max-width: 1200px;
-  margin: 6rem auto;
-  padding: 3rem 0;
-}
-
-.home__projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  gap: 2rem;
-}
-
-.home__project {
-  position: relative;
-  height: 300px;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-  display: flex;
-  opacity: 0;
-  animation: fade-in 0.8s forwards;
-}
-
-.home__project-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 2rem;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
-  transform: translateY(70%);
-  transition: transform 0.3s ease;
-  z-index: 2;
-}
-
-.home__project:hover .home__project-content {
-  transform: translateY(0);
-}
-
-.home__project-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.home__project-description {
-  font-size: 0.9rem;
-  color: #CBD5E1;
-  margin-bottom: 1.5rem;
-}
-
-.home__project-techs {
+.home__stack-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
 }
 
-.home__project-tech {
-  background-color: rgba(37, 99, 235, 0.3);
-  color: #A5F3FC;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-}
-
-.home__project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #38BDF8;
+.home__stack-tag {
+  font-family: var(--font-body);
+  font-size: 0.825rem;
   font-weight: 500;
-  text-decoration: none;
-  transition: gap 0.3s ease;
+  color: var(--text-muted);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 0.3rem 0.75rem;
+  border-radius: 2rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.home__project-link:hover {
-  gap: 0.75rem;
+.home__stack-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.home__project-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: transform 1s ease;
-  z-index: 1;
-}
-
-.home__project:hover .home__project-image {
-  transform: scale(1.1);
-}
-
-.home__project-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.5));
-  z-index: 1;
-}
-
-.home__scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  z-index: 10;
-}
-
-.home__scroll-indicator:hover {
-  opacity: 1;
-}
-
-.home__scroll-mouse {
-  width: 30px;
-  height: 50px;
-  border: 2px solid #CBD5E1;
-  border-radius: 15px;
-  position: relative;
-}
-
-.home__scroll-wheel {
-  width: 6px;
-  height: 6px;
-  background-color: #CBD5E1;
-  border-radius: 50%;
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: scroll-down 2s infinite;
-}
-
-.home__scroll-text {
-  font-size: 0.75rem;
-  color: #CBD5E1;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-up {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scroll-down {
-  0% {
-    opacity: 1;
-    top: 10px;
-  }
-  50% {
-    opacity: 1;
-    top: 25px;
-  }
-  100% {
-    opacity: 0;
-    top: 30px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .home__main {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .home__socials {
-    justify-content: center;
-  }
-  
-  .home__cta {
-    justify-content: center;
-  }
-  
-  .home__profile {
-    margin-top: 2rem;
-  }
-  
-  .home__projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .home__about-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 }
 
 @media (max-width: 768px) {
-  .home__title {
-    font-size: 2.5rem;
+  .home__hero {
+    padding: 3rem 1.5rem 2rem;
+    min-height: 80vh;
+    align-items: flex-start;
+    padding-top: 5rem;
   }
-  
-  .home__about-container {
-    flex-direction: column;
-  }
-  
-  .home__scroll-indicator {
-    display: none;
+
+  .home__about-section {
+    padding: 3rem 1.5rem 4rem;
   }
 }
 
 @media (max-width: 480px) {
-  .home__title {
-    font-size: 2rem;
+  .home__hero {
+    padding: 3rem 1rem 2rem;
   }
-  
-  .home__cta {
-    flex-direction: column;
-  }
-  
-  .home__profile-image-container {
-    width: 280px;
-    height: 280px;
+
+  .home__socials {
+    flex-wrap: wrap;
   }
 }
 </style>

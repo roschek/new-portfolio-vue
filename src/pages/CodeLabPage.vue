@@ -2,10 +2,8 @@
   <main class="codelab">
     <section class="codelab__container">
       <h2 class="codelab__title">Code Lab</h2>
-      
       <p class="codelab__description">
-        Interactive code and technical demonstrations. 
-        Choose a demo and interact with it directly in the browser.
+        Interactive technical demos — algorithms and 3D rendering, live in the browser.
       </p>
       
       <nav class="codelab__tabs">
@@ -35,11 +33,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import AlgorithmVisualizer from '../components/AlgorithmVisualiser.vue'
 import ThreeModelViewer from '../components/ThreeModelViewer.vue'
 
-// Tabs management
 const tabs = [
   {
     name: 'Algorithm Visualizer',
@@ -53,99 +50,75 @@ const tabs = [
 
 const activeTab = ref(0)
 
-// Update title based on active tab
-watch(activeTab, (newValue) => {
-  document.title = `Code Lab - ${tabs[newValue].name}`
-})
-
-onMounted(() => {
-  // Set initial title
-  document.title = `Code Lab - ${tabs[activeTab.value].name}`
-})
+watch(activeTab, (index) => {
+  document.title = `Code Lab - ${tabs[index].name}`
+}, { immediate: true })
 </script>
 
 <style scoped>
 .codelab {
-  padding: 2rem;
+  padding: 4rem 2rem 6rem;
   min-height: 80vh;
-  background-color: #0F172A;
-  color: white;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .codelab__container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 .codelab__title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-.codelab__title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
-  border-radius: 3px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin: 0 0 0.75rem;
 }
 
 .codelab__description {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 3rem;
-  color: #cbd5e1;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  max-width: 560px;
+  margin: 0 0 2.5rem;
+  color: var(--text-muted);
   line-height: 1.6;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .codelab__tabs {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .codelab__tab {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: rgba(31, 41, 55, 0.5);
-  color: #cbd5e1;
-  border: none;
-  border-radius: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
 }
 
 .codelab__tab:hover {
-  background-color: rgba(59, 130, 246, 0.2);
-  color: white;
+  border-color: var(--bg-border);
+  color: var(--text);
 }
 
 .codelab__tab--active {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: white;
-  position: relative;
-}
-
-.codelab__tab--active::after {
-  content: '';
-  position: absolute;
-  bottom: -0.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 2px;
-  background-color: #3b82f6;
-  border-radius: 1px;
+  background-color: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .codelab__tab-icon {
@@ -155,25 +128,24 @@ onMounted(() => {
 }
 
 .codelab__content {
-  background-color: rgba(31, 41, 55, 0.5);
-  border-radius: 1rem;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   padding: 2rem;
 }
 
 @media (max-width: 768px) {
+  .codelab {
+    padding: 3rem 1.25rem 4rem;
+  }
+
   .codelab__tabs {
     flex-direction: column;
-    align-items: stretch;
   }
-  
-  .codelab__title {
-    font-size: 2rem;
-  }
-  
+
   .codelab__content {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 }
 </style>

@@ -1,43 +1,144 @@
+/* ─── Design tokens ─────────────────────────────────────────────────────── */
+:root {
+  --bg:           #0D0D0D;
+  --bg-elevated:  #161616;
+  --bg-border:    #222222;
+
+  --text:         #F0EAD6;
+  --text-muted:   #8A8070;
+  --text-faint:   #4A4440;
+
+  --accent:       #FF6B35;
+  --accent-hi:    #FF9060;
+  --accent-dim:   rgba(255, 107, 53, 0.12);
+
+  --line:         #2A2A2A;
+  --radius:       4px;
+
+  --font-display: 'Syne',           system-ui, sans-serif;
+  --font-body:    'DM Sans',        system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
-body {
-  font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #ffffff;
-  background-color: #0F172A;
-  margin: 0;
-  padding: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 0.5em;
-  font-weight: bold;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
 }
 
 p {
   margin: 0 0 1em;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 a {
-  color: #38bdf8;
+  color: var(--accent);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: black;
-    transition: color 0.3s ease;
+  color: var(--accent-hi);
 }
-ul, li {
-  text-decoration: none;
-  list-style: none;
+
+ul, ol {
   padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+/* ─── Focus styles ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+/* ─── Typography scale ───────────────────────────────────────────────────── */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.t-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.t-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.t-small {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.6;
 }

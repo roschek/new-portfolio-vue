@@ -1,231 +1,230 @@
 <template>
   <section class="experience">
     <div class="experience__container">
-      <h2 class="experience__title">Professional Experience</h2>
-      
+
+      <header class="experience__header">
+        <h2 class="experience__title t-h1">Professional Experience</h2>
+        <a href="/files/alexey-kagan-cv.pdf" download class="experience__resume-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download CV
+        </a>
+      </header>
+
       <div class="experience__filters">
-        <input 
-          v-model="searchQuery" 
-          type="text" 
-          placeholder="Search skills, roles..." 
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search roles, skills, companies…"
           class="experience__search"
+          aria-label="Search experience"
         />
-        
         <div class="experience__tech-filters">
-          <button 
-            v-for="tech in topTechnologies" 
+          <button
+            v-for="tech in topTechnologies"
             :key="tech"
             :class="['experience__tech-filter', { 'experience__tech-filter--active': selectedTech === tech }]"
             @click="toggleTechFilter(tech)"
           >
             {{ tech }}
           </button>
-          <button 
+          <button
+            v-if="selectedTech || searchQuery"
             class="experience__tech-filter experience__tech-filter--reset"
             @click="resetFilters"
-            v-if="selectedTech"
           >
-            Reset
+            Clear
           </button>
         </div>
       </div>
 
-      <div class="experience__grid">
-        <div 
-          v-for="(job, index) in filteredJobs" 
-          :key="index" 
-          class="experience__card"
-          ref="jobCards"
+      <div class="experience__list">
+        <article
+          v-for="(job, index) in filteredJobs"
+          :key="index"
+          class="experience__entry"
+          :class="{ 'experience__entry--own': job.own }"
         >
-          <div class="experience__card-content">
-            <div>
-              <h3 class="experience__position">{{ job.position }}</h3>
-              <img 
-                v-if="job.icon" 
-                :src="job.icon" 
-                :alt="job.company + ' logo'" 
-                class="experience__logo"
-                loading="lazy"
-              />
+          <div class="experience__entry-aside">
+            <span class="experience__entry-period t-mono">{{ job.period }}</span>
+            <img
+              v-if="job.icon"
+              :src="job.icon"
+              :alt="job.company + ' logo'"
+              class="experience__logo"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="experience__entry-body">
+            <div class="experience__entry-top">
+              <div>
+                <span v-if="job.own" class="experience__own-badge">Own product</span>
+                <span class="experience__entry-role t-label">{{ job.position }}</span>
+              </div>
               <template v-if="job.path">
-                <a :href="job.path" class="experience__company" target="_blank" rel="noopener">
-                  {{ job.company }} | {{ job.period }}
+                <a :href="job.path" class="experience__entry-company" target="_blank" rel="noopener">
+                  {{ job.company }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
                 </a>
               </template>
               <template v-else>
-                <p class="experience__company">{{ job.company }} | {{ job.period }}</p>
+                <h3 class="experience__entry-company experience__entry-company--plain">{{ job.company }}</h3>
               </template>
-              <ul class="experience__achievements">
-                <li 
-                  v-for="(achievement, idx) in getVisibleAchievements(job, index)" 
-                  :key="idx" 
-                  class="experience__achievement"
-                >
-                  {{ achievement }}
-                  <span 
-                    v-for="(tag, tagIdx) in extractTags(achievement)" 
-                    :key="tagIdx"
-                    class="experience__tag"
-                  >
-                    {{ tag }}
-                  </span>
-                </li>
-              </ul>
-              <button 
-                v-if="job.achievements.length > 3" 
-                @click="toggleJobDetails(index)"
-                class="experience__toggle"
-              >
-                {{ expandedJobs[index] ? 'Show less' : 'Show more' }}
-              </button>
             </div>
-            <div class="experience__technologies">
-              <span 
-                v-for="(tech, idx) in job.technologies" 
-                :key="idx" 
-                class="experience__technology"
-                :class="{ 'experience__technology--highlight': isHighlighted(tech) }"
+
+            <ul class="experience__achievements">
+              <li
+                v-for="(achievement, idx) in getVisibleAchievements(job, index)"
+                :key="idx"
+                class="experience__achievement"
+              >
+                {{ achievement }}
+              </li>
+            </ul>
+            <button
+              v-if="job.achievements.length > 3"
+              @click="toggleJobDetails(index)"
+              class="experience__toggle"
+            >
+              {{ expandedJobs[index] ? 'Show less ↑' : 'Show more ↓' }}
+            </button>
+
+            <div class="experience__tags">
+              <span
+                v-for="(tech, idx) in job.technologies"
+                :key="idx"
+                class="experience__tag"
+                :class="{ 'experience__tag--active': isHighlighted(tech) }"
                 @click="toggleTechFilter(tech)"
               >
                 {{ tech }}
               </span>
             </div>
           </div>
+        </article>
+
+        <div v-if="filteredJobs.length === 0" class="experience__empty">
+          <p>No matching experience found.</p>
+          <button @click="resetFilters" class="experience__reset-btn">Clear filters</button>
         </div>
       </div>
-      
-      <div v-if="filteredJobs.length === 0" class="experience__empty">
-        <p>No matching experience found.</p>
-        <button @click="resetFilters" class="experience__reset-button">Reset Filters</button>
-      </div>
-      
-      <div class="experience__resume">
-        <a href="/files/alexey-kagan-cv.pdf" download class="experience__resume-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Download Resume
-        </a>
-      </div>
+
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed } from 'vue'
 
 const jobs = [
   {
-    position: 'Creator / Mobile App Developer',
+    position: 'Creator / Flutter Developer',
     company: 'iSolace: Private AI Companion',
     path: 'https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog',
-    period: '2025 - Present',
+    period: '2025 – Present',
+    own: true,
     icon: '/images/isolace-icon.png',
     achievements: [
-      'Built a private AI companion app with end‑to‑end encryption (E2EE).',
-      'Implemented continuous memory to carry context across sessions.',
-      'Added voice and text interaction with fast, direct responses.'
+      'Designed and shipped a private AI companion app to Google Play — solo, from idea to production.',
+      'Implemented end-to-end encryption (E2EE) for all conversations — messages never leave the device unencrypted.',
+      'Built continuous session memory so the AI carries full context across conversations.',
+      'Added voice and text interaction with low-latency response pipeline.',
     ],
-    technologies: ['Android', 'AI', 'E2EE', 'Voice'],
+    technologies: ['Flutter', 'Dart', 'OpenAI API', 'E2EE', 'Voice'],
   },
-{
+  {
     position: 'Creator / Fullstack Developer',
-    company: 'ProfileNexus (AI Resume Builder)',
+    company: 'ProfileNexus — AI Resume Builder',
     path: 'https://app.alex-kagan-develop.com/',
-    period: '2024 - Present',
+    period: '2024 – Present',
+    own: true,
     achievements: [
-      'Engineered a full-stack AI application to generate job-specific resumes and cover letters.',
-      'Developed a robust Python (FastAPI) backend with asynchronous task processing for AI generation.',
-      'Built a responsive and localized (i18n) web-client using Flutter/Dart.',
-      'Configured and deployed the entire infrastructure using a CI/CD pipeline on Vercel and Render.',
+      'Sole developer — built Flutter/Dart frontend, Python/FastAPI backend, and CI/CD pipeline entirely solo.',
+      'Integrated Gemini API for context-aware, job-specific resume and cover letter generation.',
+      'Shipped i18n support and production deployment on Vercel + Render.',
     ],
-    technologies: ['Flutter', 'Dart', 'Python', 'FastAPI', 'Gemini API', 'Vercel', 'Render', 'CI/CD'],
+    technologies: ['Flutter', 'Dart', 'Python', 'FastAPI', 'Gemini API', 'Vercel', 'CI/CD'],
   },
   {
     position: 'Senior Frontend Developer',
     company: 'payouts.com',
     path: 'https://payouts.com/',
-    period: 'Jan 2023 - Present',
+    period: 'Jan 2023 – Present',
     achievements: [
-      'Led a team of 5 developers, reducing bugs by 30%',
-      'Designed modular authorization system with role-based access',
-      'Optimized loading time by 40% through code splitting',
-      'Integrated TypeScript across the project',
-      'Created reusable UI components',
+      'Led a team of 5 developers — reduced bug count by 30% through code review culture and test coverage.',
+      'Optimised page load time by 40% via code splitting, lazy loading, and bundle analysis.',
+      'Designed modular role-based authorisation system serving multiple product lines.',
+      'Migrated entire codebase to TypeScript, eliminating a class of runtime errors.',
     ],
-    technologies: ['React', 'TypeScript', 'Redux', 'REST API', 'Jest'],
+    technologies: ['React', 'TypeScript', 'Redux', 'Jest', 'REST API'],
   },
   {
     position: 'Frontend Developer',
     company: 'Korus Consulting',
     path: 'https://korusconsulting.com/',
-    period: 'Dec 2020 - Jan 2023',
+    period: 'Dec 2020 – Jan 2023',
     achievements: [
-      'Developed LaModa MarketPlace client module (conversion +15%)',
-      'Created interactive warehouse management system',
-      'Integrated customs oil declaration system',
-      'Developed analytical performance monitoring tool',
+      'Built LaModa Marketplace checkout module — conversion rate improved by 15%.',
+      'Developed interactive warehouse management system with real-time inventory tracking.',
+      'Built analytics dashboard for performance monitoring across distributed logistics systems.',
     ],
-    technologies: ['Vue 2/3', 'Vuex', 'JavaScript', 'Express', 'MongoDB'],
+    technologies: ['Vue.js', 'Vuex', 'JavaScript', 'Express', 'MongoDB'],
   },
   {
-    position: 'Frontend/Fullstack Developer',
+    position: 'Frontend / Fullstack Developer',
     company: 'Nota.Media',
     path: 'https://notamedia.com/',
-    period: 'Sep 2018 - Dec 2020',
+    period: 'Sep 2018 – Dec 2020',
     achievements: [
-      'Built small business support system interfaces',
-      'Created NFT trading platform with blockchain integration',
-      'Developed marketplace backend with Nest.js and MongoDB',
-      'Built cross-platform mobile app with Flutter',
+      'Built full-stack marketplace: Vue.js frontend, Nest.js/MongoDB backend.',
+      'Developed cross-platform mobile app with Flutter shipped to both iOS and Android.',
     ],
     technologies: ['Vue.js', 'Flutter', 'Nest.js', 'MongoDB'],
   },
   {
     position: 'Frontend Developer',
     company: 'Yandex',
-    period: '2016-2018',
+    period: '2016 – 2018',
     achievements: [
-      'Developed over 10 responsive web applications',
-      'Optimized UIs for mobile (UX +25%)',
-      'Integrated WordPress CMS for clients',
+      'Built and maintained front-end components for Yandex products serving tens of millions of users.',
     ],
-    technologies: ['HTML5', 'CSS3', 'JavaScript', 'WordPress'],
-  }
+    technologies: ['HTML5', 'CSS3', 'JavaScript'],
+  },
 ]
 
 const searchQuery = ref('')
 const selectedTech = ref(null)
 const expandedJobs = ref(Array(jobs.length).fill(false))
-const jobCards = ref([])
 
-const topTechnologies = ['React', 'Vue.js', 'TypeScript', 'JavaScript', 'MongoDB']
+const topTechnologies = ['React', 'Vue.js', 'TypeScript', 'OpenAI API', 'Python']
 
 const filteredJobs = computed(() => {
   let result = [...jobs]
-  
+
   if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(job => {
-      return (
-        job.position.toLowerCase().includes(query) ||
-        job.company.toLowerCase().includes(query) ||
-        job.achievements.some(achievement => achievement.toLowerCase().includes(query)) ||
-        job.technologies.some(tech => tech.toLowerCase().includes(query))
-      )
-    })
-  }
-  
-  if (selectedTech.value) {
-    result = result.filter(job => 
-      job.technologies.some(tech => 
-        tech.toLowerCase() === selectedTech.value.toLowerCase()
-      )
+    const q = searchQuery.value.toLowerCase()
+    result = result.filter(job =>
+      job.position.toLowerCase().includes(q) ||
+      job.company.toLowerCase().includes(q) ||
+      job.achievements.some(a => a.toLowerCase().includes(q)) ||
+      job.technologies.some(t => t.toLowerCase().includes(q))
     )
   }
-  
+
+  if (selectedTech.value) {
+    result = result.filter(job =>
+      job.technologies.some(t => t.toLowerCase() === selectedTech.value.toLowerCase())
+    )
+  }
+
   return result
 })
 
@@ -237,19 +236,6 @@ function resetFilters() {
   searchQuery.value = ''
   selectedTech.value = null
   expandedJobs.value = Array(jobs.length).fill(false)
-  
-  nextTick(() => {
-    if (jobCards.value && jobCards.value.length) {
-      jobCards.value.forEach((card, index) => {
-        if (card) {
-          card.classList.remove('experience__card--animate')
-          setTimeout(() => {
-            card.classList.add('experience__card--animate')
-          }, index * 100)
-        }
-      })
-    }
-  })
 }
 
 function toggleJobDetails(index) {
@@ -266,305 +252,351 @@ function isHighlighted(tech) {
     (searchQuery.value && tech.toLowerCase().includes(searchQuery.value.toLowerCase()))
   )
 }
-
-function extractTags(text) {
-  const keywords = ['React', 'TypeScript', 'Redux', 'Vue', 'JavaScript', 'REST API', 
-                   'MongoDB', 'Express', 'Firebase', 'CI/CD', 'Flutter', 'Nest.js']
-  
-  return keywords.filter(keyword => 
-    text.includes(keyword) || 
-    text.includes(keyword.toLowerCase())
-  )
-}
-
-onMounted(() => {
-  if (jobCards.value && jobCards.value.length) {
-    jobCards.value.forEach((card, index) => {
-      setTimeout(() => {
-        if (card) card.classList.add('experience__card--animate')
-      }, index * 150)
-    })
-  }
-})
 </script>
 
 <style scoped>
 .experience {
-  padding: 2rem;
+  padding: 4rem 2rem 6rem;
   min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #0F172A;
+  background-color: var(--bg);
 }
 
 .experience__container {
-  max-width: 1200px;
-  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.experience__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .experience__title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  color: #fff;
+  margin: 0;
+  padding-bottom: 0;
   position: relative;
-  padding-bottom: 0.5rem;
 }
 
 .experience__title::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #2563EB, transparent);
-  border-radius: 3px;
+  bottom: -1.5rem;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--accent);
 }
 
+.experience__resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--bg-border);
+  padding: 0.45rem 1rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.experience__resume-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ─── Filters ────────────────────────────────────────────────────────────── */
 .experience__filters {
-  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
 }
 
 .experience__search {
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  background-color: rgba(31, 41, 55, 0.8);
-  border: 1px solid rgba(107, 114, 128, 0.3);
-  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease;
+}
+
+.experience__search::placeholder {
+  color: var(--text-faint);
 }
 
 .experience__search:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+  border-color: var(--accent);
 }
 
 .experience__tech-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .experience__tech-filter {
-  padding: 0.5rem 0.75rem;
-  border-radius: 20px;
-  background-color: rgba(31, 41, 55, 0.5);
-  color: #CBD5E1;
-  border: 1px solid rgba(107, 114, 128, 0.2);
-  font-size: 0.85rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2rem;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--line);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .experience__tech-filter:hover {
-  background-color: rgba(43, 55, 75, 0.8);
-  color: white;
+  border-color: var(--bg-border);
+  color: var(--text);
 }
 
 .experience__tech-filter--active {
-  background-color: #2563EB;
-  color: white;
-  border-color: #2563EB;
+  background-color: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .experience__tech-filter--reset {
-  background-color: rgba(239, 68, 68, 0.2);
-  color: #FCA5A5;
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: transparent;
+  color: var(--text-faint);
 }
 
 .experience__tech-filter--reset:hover {
-  background-color: rgba(239, 68, 68, 0.3);
+  color: var(--text-muted);
+  border-color: var(--line);
 }
 
-.experience__grid {
+/* ─── Entry list ─────────────────────────────────────────────────────────── */
+.experience__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.experience__entry {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  margin-bottom: 2rem;
+  grid-template-columns: 120px 1fr;
+  gap: 0 2.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.experience__card {
-  background-color: rgba(31, 41, 55, 0.7);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
+.experience__entry:first-child {
+  padding-top: 0;
+}
+
+/* ─── Aside (period + logo) ──────────────────────────────────────────────── */
+.experience__entry-aside {
+  padding-top: 0.25rem;
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  transform: translateY(20px);
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.experience__card--animate {
-  opacity: 1;
-  transform: translateY(0);
+.experience__entry-period {
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
-.experience__card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+.experience__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--line);
 }
 
-.experience__card-content {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.experience__position {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-.experience__company {
-  font-size: 1rem;
-  color: #38bdf8;
+/* ─── Body ───────────────────────────────────────────────────────────────── */
+.experience__entry-top {
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.experience__own-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background-color: var(--accent-dim);
+  padding: 0.2rem 0.55rem;
+  border-radius: 2rem;
+  margin-bottom: 0.4rem;
+}
+
+.experience__entry-role {
   display: block;
+  color: var(--accent);
+  margin-bottom: 0.15rem;
+}
+
+.experience__entry-company {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--text);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease;
+  line-height: 1.2;
 }
 
-.experience__company:hover {
-  text-decoration: underline;
+.experience__entry-company:hover {
+  color: var(--accent);
 }
 
+.experience__entry-company--plain {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+/* ─── Achievements ───────────────────────────────────────────────────────── */
 .experience__achievements {
-  list-style: disc;
-  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
   margin-bottom: 1rem;
-  color: #E2E8F0;
-  font-size: 0.9rem;
 }
 
 .experience__achievement {
-  margin-bottom: 0.75rem;
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  padding-left: 1.2rem;
+  position: relative;
 }
 
-.experience__tag {
-  display: inline-block;
-  background-color: rgba(37, 99, 235, 0.2);
-  color: #60A5FA;
-  font-size: 0.7rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: 4px;
-  margin-left: 0.5rem;
-  font-weight: 500;
+.experience__achievement::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+  top: 0.05em;
 }
 
 .experience__toggle {
   background: none;
   border: none;
-  color: #38bdf8;
+  color: var(--text-faint);
   cursor: pointer;
-  font-size: 0.85rem;
-  padding: 0.25rem 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  padding: 0;
   margin-bottom: 1rem;
   transition: color 0.2s ease;
 }
 
 .experience__toggle:hover {
-  color: #93C5FD;
-  text-decoration: underline;
+  color: var(--accent);
 }
 
-.experience__technologies {
-  margin-top: auto;
+/* ─── Tech tags ──────────────────────────────────────────────────────────── */
+.experience__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
 }
 
-.experience__technology {
-  background-color: rgba(36, 59, 85, 0.5);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
+.experience__tag {
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  color: #94A3B8;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  color: var(--text-faint);
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.65rem;
+  border-radius: 2rem;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.experience__technology:hover {
-  background-color: rgba(37, 99, 235, 0.3);
-  color: white;
-  transform: translateY(-2px);
+.experience__tag:hover,
+.experience__tag--active {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.experience__technology--highlight {
-  background-color: rgba(37, 99, 235, 0.4);
-  color: white;
-}
-
+/* ─── Empty state ────────────────────────────────────────────────────────── */
 .experience__empty {
   text-align: center;
-  padding: 3rem 1rem;
-  color: #94A3B8;
+  padding: 4rem 1rem;
+  color: var(--text-muted);
 }
 
-.experience__reset-button {
+.experience__reset-btn {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #2563EB;
-  color: white;
+  padding: 0.5rem 1.25rem;
+  background-color: var(--accent);
+  color: var(--bg);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
-.experience__reset-button:hover {
-  background-color: #1D4ED8;
+.experience__reset-btn:hover {
+  background-color: var(--accent-hi);
 }
 
-.experience__resume {
-  display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+/* ─── Own product highlight ──────────────────────────────────────────────── */
+.experience__entry--own .experience__entry-company {
+  font-size: 1.45rem;
 }
 
-.experience__resume-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #2563EB;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .experience {
+    padding: 3rem 1.25rem 4rem;
+  }
 
-.experience__resume-button:hover {
-  background-color: #1D4ED8;
-  transform: translateY(-2px);
-}
+  .experience__entry {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 2rem 0;
+  }
 
-.experience__logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  margin: 0.25rem 0 0.75rem 0;
-  object-fit: cover;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
+  .experience__entry-aside {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 0;
+  }
 
-@media (max-width: 768px) {
-  .experience__tech-filters {
-    justify-content: center;
+  .experience__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
 </style>

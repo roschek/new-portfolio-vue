@@ -163,67 +163,79 @@
   </section>
   </template>
 
-<script setup>
-</script>
-
 <style scoped>
 .policy {
-  padding: 2rem 1rem;
-  background-color: #0F172A;
-  color: #E2E8F0;
+  padding: 4rem 2rem 6rem;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 80vh;
 }
 
 .policy__container {
-  max-width: 900px;
+  max-width: 760px;
   margin: 0 auto;
 }
 
 .policy__header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .policy__title {
-  font-size: 2rem;
-  margin: 0 0 0.25rem 0;
-  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin: 0 0 0.5rem;
 }
 
 .policy__effective-date {
-  color: #94A3B8;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
   margin: 0;
 }
 
 .policy__intro {
+  font-family: var(--font-body);
   line-height: 1.7;
-  color: #CBD5E1;
+  color: var(--text-muted);
+  margin-bottom: 0;
 }
 
 .policy__section {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .policy__section-title {
-  font-size: 1.25rem;
-  margin: 0 0 0.75rem 0;
-  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.75rem;
 }
 
 .policy__list {
   padding-left: 1.25rem;
-  line-height: 1.7;
-  color: #CBD5E1;
+  line-height: 1.75;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
+.policy__list li {
+  margin-bottom: 0.5rem;
 }
 
 .policy__contact {
   font-weight: 600;
-  color: #A5B4FC;
+  color: var(--accent);
 }
 
 @media (max-width: 600px) {
-  .policy__title {
-    font-size: 1.6rem;
+  .policy {
+    padding: 3rem 1.25rem 4rem;
   }
 }
 </style>
-
-
