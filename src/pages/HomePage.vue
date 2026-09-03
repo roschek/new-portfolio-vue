@@ -42,7 +42,7 @@
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
           </a>
-          <a href="/frontend" class="home__button home__button--secondary">
+          <a href="/portfolio" class="home__button home__button--secondary">
             Work &amp; Projects
           </a>
         </nav>
@@ -73,11 +73,13 @@
             and AI-powered features shipped to real users.
           </p>
           <p class="home__text">
-            Currently shipping two own products:
+            Currently shipping three own products:
             <a href="https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog" target="_blank" rel="noopener">iSolace</a>
-            — a private AI companion app with E2E encryption — and
+            — a private AI companion app with E2E encryption,
             <a href="https://app.alex-kagan-develop.com" target="_blank" rel="noopener">ProfileNexus</a>
-            — an AI resume builder, live in production.
+            — an AI resume builder, and
+            <a href="https://loveisdate.co.il/" target="_blank" rel="noopener">Love is Date</a>
+            — a speed dating platform running live events. All in production.
           </p>
           <p class="home__text">
             Available for senior full-time roles and consulting in full-stack development
@@ -91,7 +93,7 @@
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
             </a>
-            <a href="/frontend" class="home__button home__button--secondary">
+            <a href="/portfolio" class="home__button home__button--secondary">
               Work &amp; Projects
             </a>
           </div>
@@ -122,7 +124,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const isReady = ref(false)
 
-const roles = ['Frontend Developer', 'Vue.js Expert', 'React Specialist', 'AI Integration Engineer', 'Fullstack Engineer']
+const roles = ['Fullstack Developer', 'Vue.js Expert', 'React Specialist', 'AI Integration Engineer', 'Node.js Engineer']
 const currentRoleIndex = ref(0)
 const roleInterval = ref(null)
 

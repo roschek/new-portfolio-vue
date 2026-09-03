@@ -3,7 +3,7 @@
     <div class="experience__container">
 
       <header class="experience__header">
-        <h2 class="experience__title t-h1">Professional Experience</h2>
+        <h2 class="experience__title t-h1">Portfolio</h2>
         <a href="/files/alexey-kagan-cv.pdf" download class="experience__resume-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -126,6 +126,20 @@ import { ref, computed } from 'vue'
 
 const jobs = [
   {
+    position: 'Creator / Fullstack Developer',
+    company: 'Love is Date — Speed Dating Platform',
+    path: 'https://loveisdate.co.il/',
+    period: '2026 – Present',
+    own: true,
+    achievements: [
+      'Built the whole platform solo: public site, admin panel, and the app that runs the events.',
+      'Shipped a signup form that registers participants for upcoming events.',
+      'Built an admin panel for creating and scheduling events.',
+      'Implemented the event app where participants rate each other and results are calculated on the spot.',
+    ],
+    technologies: ['Nest.js', 'Firebase', 'Node.js'],
+  },
+  {
     position: 'Creator / Flutter Developer',
     company: 'iSolace: Private AI Companion',
     path: 'https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog',
@@ -154,7 +168,7 @@ const jobs = [
     technologies: ['Flutter', 'Dart', 'Python', 'FastAPI', 'Gemini API', 'Vercel', 'CI/CD'],
   },
   {
-    position: 'Senior Frontend Developer',
+    position: 'Senior Fullstack Developer',
     company: 'payouts.com',
     path: 'https://payouts.com/',
     period: 'Jan 2023 – Present',
@@ -167,7 +181,7 @@ const jobs = [
     technologies: ['React', 'TypeScript', 'Redux', 'Jest', 'REST API'],
   },
   {
-    position: 'Frontend Developer',
+    position: 'Fullstack Developer',
     company: 'Korus Consulting',
     path: 'https://korusconsulting.com/',
     period: 'Dec 2020 – Jan 2023',
@@ -179,7 +193,7 @@ const jobs = [
     technologies: ['Vue.js', 'Vuex', 'JavaScript', 'Express', 'MongoDB'],
   },
   {
-    position: 'Frontend / Fullstack Developer',
+    position: 'Fullstack Developer',
     company: 'Nota.Media',
     path: 'https://notamedia.com/',
     period: 'Sep 2018 – Dec 2020',
@@ -190,7 +204,7 @@ const jobs = [
     technologies: ['Vue.js', 'Flutter', 'Nest.js', 'MongoDB'],
   },
   {
-    position: 'Frontend Developer',
+    position: 'Fullstack Developer',
     company: 'Yandex',
     period: '2016 – 2018',
     achievements: [
