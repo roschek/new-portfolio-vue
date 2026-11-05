@@ -49,6 +49,11 @@
             <span class="layout__nav-text">AI Resume Builder</span>
           </a>
         </nav>
+
+        <a href="mailto:roscheka@gmail.com" class="layout__status">
+          <span class="layout__status-dot" aria-hidden="true"></span>
+          Open to work
+        </a>
       </div>
     </header>
 
@@ -252,6 +257,56 @@ onUnmounted(() => {
 .layout__logo-link:hover .layout__logo-text {
   transform: rotate(8deg);
   background-color: var(--accent-hi);
+}
+
+/* ─── Status pill ────────────────────────────────────────────────────────── */
+.layout__status {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: 1rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.layout__status:hover {
+  border-color: #4ade80;
+  color: var(--text);
+}
+
+.layout__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+  animation: status-pulse 2s ease-out infinite;
+}
+
+@keyframes status-pulse {
+  70% { box-shadow: 0 0 0 7px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+@media (min-width: 1100px) {
+  .layout__status {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layout__status-dot {
+    animation: none;
+  }
 }
 
 .layout__full-name {
