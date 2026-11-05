@@ -15,6 +15,18 @@ const routes = [
   { path: "/ai", component: AIPage },
   { path: "/codelab", component: CodeLabPage },
   { path: "/privacy-policy", component: PrivacyPolicyPage },
+  {
+    // Lecture translator PWA: lazy so site visitors never download it.
+    path: "/translate",
+    component: () => import("../translate/TranslateShell.vue"),
+    meta: { bare: true },
+    children: [
+      { path: "", component: () => import("../translate/pages/LivePage.vue") },
+      { path: "sessions", component: () => import("../translate/pages/SessionsPage.vue") },
+      { path: "sessions/:id", component: () => import("../translate/pages/SessionPage.vue"), props: true },
+      { path: "settings", component: () => import("../translate/pages/SettingsPage.vue") },
+    ],
+  },
 ];
 
 const router = createRouter({

@@ -6,4 +6,5 @@ import "./assets/main.css";
 
 const app = createApp(App);
 app.use(router);
-app.mount("#app");
+// Wait for the first route so bare pages never flash the site layout.
+router.isReady().then(() => app.mount("#app"));
