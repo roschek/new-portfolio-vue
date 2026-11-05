@@ -145,6 +145,18 @@ describe("useLiveSession", () => {
     expect(t.live.elapsedMs.value).toBe(31000);
   });
 
+  it("keeps translating when storage fails", async () => {
+    const t = setup();
+    t.store.createSession.mockRejectedValue(new Error("no idb"));
+    t.store.saveSession.mockRejectedValue(new Error("no idb"));
+    const stream = await startRecording(t);
+    expect(t.live.storageOk.value).toBe(false);
+    stream.args.onTokens([orig("A"), tr("А")]);
+    t.advance(5000);
+    expect(t.live.paragraphs.value).toHaveLength(1);
+    expect(t.live.status.value).toBe("recording");
+  });
+
   it("saves when the page is hidden", async () => {
     const t = setup();
     await startRecording(t);

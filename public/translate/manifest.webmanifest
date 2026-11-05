@@ -1,0 +1,18 @@
+{
+  "id": "/translate/",
+  "name": "Lecture Translator — Aleksei Kagan",
+  "short_name": "Translator",
+  "description": "Live lecture translation: Hebrew, English, Russian, German, Spanish.",
+  "start_url": "/translate/",
+  "scope": "/translate/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D0D0D",
+  "theme_color": "#0D0D0D",
+  "icons": [
+    { "src": "/translate/pwa-64x64.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/translate/pwa-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/translate/pwa-512x512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/translate/maskable-icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

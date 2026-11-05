@@ -27,6 +27,7 @@ export function useLiveSession({
   const session = shallowRef(null);
   const transcript = shallowRef(createTranscript());
   const elapsedMs = ref(0);
+  const storageOk = ref(true);
   const paragraphs = computed(() => transcript.value.paragraphs);
   const tail = computed(() => transcript.value.tail);
   const wordCount = computed(() => countWords(transcript.value.paragraphs));
@@ -65,7 +66,11 @@ export function useLiveSession({
   async function persist(statusOverride) {
     if (!session.value) return;
     session.value = snapshot(statusOverride);
-    await store.saveSession(session.value);
+    try {
+      await store.saveSession(session.value);
+    } catch {
+      storageOk.value = false; // Keep translating even if nothing can be saved.
+    }
   }
 
   const emit = (paragraph) => listeners.forEach((cb) => cb(paragraph));
@@ -147,7 +152,15 @@ export function useLiveSession({
 
   async function start({ title, targetLang, context, key }) {
     apiKey = key;
-    load(await store.createSession({ title, targetLang, context }));
+    let created;
+    try {
+      created = await store.createSession({ title, targetLang, context });
+    } catch {
+      storageOk.value = false;
+      created = { id: crypto.randomUUID(), title, targetLang, context, createdAt: Date.now(),
+        durationMs: 0, status: "recording", detectedLangs: [], paragraphs: [], summary: null };
+    }
+    load(created);
     openStream();
   }
 
@@ -193,7 +206,7 @@ export function useLiveSession({
     let id = session.value.id;
     if (transcript.value.paragraphs.length) await persist("done");
     else {
-      await store.deleteSession(id);
+      await store.deleteSession(id).catch(() => {});
       id = null;
     }
     session.value = null;
@@ -220,6 +233,7 @@ export function useLiveSession({
   return {
     status,
     error,
+    storageOk,
     session,
     paragraphs,
     tail,
