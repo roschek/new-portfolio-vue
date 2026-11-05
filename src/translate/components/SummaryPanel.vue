@@ -98,9 +98,18 @@ async function make() {
   margin-block-start: 0;
 }
 
-.summary__body :deep(ul),
-.summary__body :deep(ol) {
+.summary__body :deep(ul) {
+  list-style: disc;
   padding-inline-start: 1.25rem;
+}
+
+.summary__body :deep(ol) {
+  list-style: decimal;
+  padding-inline-start: 1.25rem;
+}
+
+.summary__body :deep(li::marker) {
+  color: var(--accent);
 }
 
 .summary__body :deep(li) {

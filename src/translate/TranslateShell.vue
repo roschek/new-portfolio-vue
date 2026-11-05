@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { t } from './i18n.js'
 import { enablePwa } from './pwa.js'
@@ -46,7 +46,13 @@ const isActive = (link) =>
 
 const isLive = computed(() => !['idle', 'error'].includes(live.status.value))
 
-onMounted(enablePwa)
+const siteTitle = document.title
+
+onMounted(() => {
+  document.title = t('appName')
+  enablePwa()
+})
+onBeforeUnmount(() => (document.title = siteTitle))
 </script>
 
 <style scoped>
