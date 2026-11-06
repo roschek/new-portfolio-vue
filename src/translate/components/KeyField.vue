@@ -12,7 +12,7 @@
         type="password"
         autocomplete="off"
         spellcheck="false"
-        @change="save"
+        @input="save"
       />
       <button type="button" class="keyfield__check" :disabled="!value.trim() || probing" @click="check">
         {{ probing ? t('checking') : t('check') }}
