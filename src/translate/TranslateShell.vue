@@ -18,6 +18,7 @@
         </RouterLink>
       </nav>
     </header>
+    <InstallBanner />
 
     <main class="tshell__main">
       <router-view />
@@ -30,6 +31,7 @@ import { computed, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { t } from './i18n.js'
 import { enablePwa } from './pwa.js'
+import InstallBanner from './components/InstallBanner.vue'
 import { getLiveSession } from './composables/useLiveSession.js'
 
 const route = useRoute()

@@ -84,6 +84,10 @@ const STRINGS = {
     remember: "Запомнить ключи на этом устройстве",
     forget: "Забыть все ключи",
     forgotten: "Ключи удалены",
+    installApp: "Установить приложение",
+    installIos: "Чтобы поставить на телефон: кнопка «Поделиться» внизу Safari → «На экран „Домой“».",
+    installAndroid: "Чтобы поставить на телефон: меню ⋮ браузера → «Установить приложение».",
+    installDismiss: "Скрыть",
     pwaHint: "Поставить на телефон: в Safari — «Поделиться» → «На экран Домой», в Chrome — меню → «Установить приложение».",
   },
   en: {
@@ -169,6 +173,10 @@ const STRINGS = {
     remember: "Remember keys on this device",
     forget: "Forget all keys",
     forgotten: "Keys removed",
+    installApp: "Install app",
+    installIos: "To install: tap Share at the bottom of Safari → Add to Home Screen.",
+    installAndroid: "To install: browser menu ⋮ → Install app.",
+    installDismiss: "Hide",
     pwaHint: "To install on a phone: in Safari — Share → Add to Home Screen, in Chrome — menu → Install app.",
   },
 };

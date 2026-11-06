@@ -12,7 +12,40 @@ const HEAD_TAGS = [
   ["meta", { name: "apple-mobile-web-app-title", content: "Translator" }],
 ];
 
+import { ref } from "vue";
+
 let enabled = false;
+let deferredPrompt = null;
+
+const ua = navigator.userAgent;
+const isIos = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/.test(ua);
+const isStandalone = () =>
+  window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+
+// 'prompt' — the browser gave us an install prompt (Chrome, Edge, Android);
+// 'ios' / 'android' — show manual instructions; 'none' — installed or unsupported.
+export const installMode = ref(isStandalone() ? "none" : isIos ? "ios" : isAndroid ? "android" : "none");
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+  installMode.value = "prompt";
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredPrompt = null;
+  installMode.value = "none";
+});
+
+export async function promptInstall() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  // A prompt can be shown only once per page load.
+  installMode.value = outcome === "accepted" || !isAndroid ? "none" : "android";
+}
 
 export function enablePwa() {
   if (enabled) return;
