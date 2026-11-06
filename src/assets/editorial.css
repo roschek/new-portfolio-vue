@@ -1,0 +1,137 @@
+/* Editorial primitives shared by all site pages: section labels,
+   pill buttons, page sections and scroll reveal. */
+
+.accent em,
+em.accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.label--dim,
+.label__dim {
+  color: var(--text-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn--primary:hover {
+  background: var(--accent-hi);
+  color: var(--bg);
+}
+
+.btn--ghost {
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.btn__arrow {
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(4px);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.page {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.section {
+  width: min(100% - 2 * clamp(1.25rem, 5vw, 2rem), 1000px);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 10vw, 7rem);
+}
+
+.section--first {
+  padding-block-start: clamp(3rem, 8vw, 5rem);
+}
+
+.section--talk {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-block-start: 1px dashed var(--line);
+}
+
+.talk__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.talk__text {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags__item {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .reveal--in {
+    opacity: 1;
+    transform: none;
+  }
+}

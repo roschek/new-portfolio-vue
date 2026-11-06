@@ -43,10 +43,7 @@
 
     <!-- ── § 01 Services ───────────────────────────────────────────────── -->
     <section v-reveal class="section">
-      <header class="section__head">
-        <p class="label">§ 01 / Services</p>
-        <h2 class="section__title">What I can <em>build</em> for you</h2>
-      </header>
+      <SectionHead label="§ 01 / Services">What I can <em>build</em> for you</SectionHead>
       <ol class="services">
         <li v-for="(service, index) in services" :key="service.title" class="services__item">
           <p class="label label--dim">SVC · {{ pad(index + 1) }}</p>
@@ -59,35 +56,25 @@
 
     <!-- ── § 02 Selected work ──────────────────────────────────────────── -->
     <section v-reveal class="section">
-      <header class="section__head">
-        <p class="label">§ 02 / Selected work</p>
-        <h2 class="section__title">Products in <em>production</em></h2>
-      </header>
+      <SectionHead label="§ 02 / Selected work">Products in <em>production</em></SectionHead>
       <ul class="work">
         <li v-for="(item, index) in work" :key="item.name">
-          <component
-            :is="item.internal ? RouterLink : 'a'"
-            v-bind="item.internal ? { to: item.url } : { href: item.url, target: '_blank', rel: 'noopener' }"
-            class="work__item"
-          >
+          <RouterLink :to="`/portfolio#${item.slug}`" class="work__item">
             <span class="work__num">{{ pad(index + 1) }}</span>
             <span class="work__body">
               <span class="work__name">{{ item.name }}</span>
               <span class="work__text">{{ item.text }}</span>
               <span class="work__tags">{{ item.tags.join(' · ') }}</span>
             </span>
-            <span class="work__arrow" aria-hidden="true">↗</span>
-          </component>
+            <span class="work__arrow" aria-hidden="true">→</span>
+          </RouterLink>
         </li>
       </ul>
     </section>
 
     <!-- ── § 03 Now ────────────────────────────────────────────────────── -->
     <section v-reveal class="section">
-      <header class="section__head">
-        <p class="label">§ 03 / Now <span class="label__dim">· {{ year }} · {{ month }}</span></p>
-        <h2 class="section__title">What I'm doing <em>this month</em></h2>
-      </header>
+      <SectionHead label="§ 03 / Now" :note="`${year} · ${month}`">What I'm doing <em>this month</em></SectionHead>
       <dl class="now">
         <div v-for="entry in nowEntries" :key="entry.term" class="now__row">
           <dt class="label label--dim">{{ entry.term }}</dt>
@@ -98,10 +85,7 @@
 
     <!-- ── § 04 Stack ──────────────────────────────────────────────────── -->
     <section id="about" v-reveal class="section">
-      <header class="section__head">
-        <p class="label">§ 04 / Stack</p>
-        <h2 class="section__title">Tools I <em>trust</em></h2>
-      </header>
+      <SectionHead label="§ 04 / Stack">Tools I <em>trust</em></SectionHead>
       <div class="stack">
         <div v-for="group in techStack" :key="group.label" class="stack__group">
           <p class="label label--dim">{{ group.label }}</p>
@@ -117,7 +101,7 @@
       <p class="label">§ 05 / Talk</p>
       <h2 class="talk__title">Let's build <em>something</em> real.</h2>
       <p class="talk__text">Senior full-time roles and consulting in full-stack development and AI integration.</p>
-      <div class="hero__actions">
+      <div class="actions">
         <a href="mailto:roscheka@gmail.com" class="btn btn--primary">roscheka@gmail.com <span class="btn__arrow" aria-hidden="true">→</span></a>
         <a href="https://t.me/roschek" target="_blank" rel="noopener" class="btn btn--ghost">Telegram</a>
         <a href="https://wa.me/972539310707" target="_blank" rel="noopener" class="btn btn--ghost">WhatsApp</a>
@@ -130,6 +114,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import SectionHead from '../components/SectionHead.vue'
 
 const isReady = ref(false)
 const hero = ref(null)
@@ -206,63 +191,40 @@ const services = [
 
 const work = [
   {
-    name: 'iSolace',
-    text: 'Private AI companion app with end-to-end encryption.',
-    tags: ['Flutter', 'AI', 'E2E encryption'],
-    url: 'https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog',
+    name: 'Love is Date',
+    text: 'Speed dating platform that replaced paper cards at live events.',
+    tags: ['Web platform', 'Events'],
+    slug: 'love-is-date',
   },
   {
     name: 'ProfileNexus',
-    text: 'AI resume builder.',
+    text: 'AI resume builder that tailors a CV to each vacancy.',
     tags: ['AI', 'Web app'],
-    url: 'https://app.alex-kagan-develop.com',
-  },
-  {
-    name: 'Love is Date',
-    text: 'Speed dating platform running live events.',
-    tags: ['Web platform', 'Events'],
-    url: 'https://loveisdate.co.il/',
+    slug: 'profilenexus',
   },
   {
     name: 'Lecture Translator',
     text: 'Live lecture translation in five languages, installable on a phone.',
     tags: ['PWA', 'Speech AI', 'Vue'],
-    url: '/translate/',
-    internal: true,
+    slug: 'lecture-translator',
+  },
+  {
+    name: 'payouts.com',
+    text: 'Marketing payouts aggregator and banking — senior full-stack, team lead.',
+    tags: ['React', 'TypeScript', 'Fintech'],
+    slug: 'payouts',
   },
 ]
 
 const nowEntries = [
   { term: 'Building', value: 'Lecture Translator — live translation and summaries for lectures, as a PWA.' },
-  { term: 'Running', value: 'iSolace, ProfileNexus and Love is Date in production.' },
+  { term: 'Running', value: 'ProfileNexus, Love is Date and Lecture Translator in production.' },
   { term: 'Open to', value: 'Senior full-time roles and consulting.' },
 ]
 function moveSpotlight(event) {
   const rect = hero.value.getBoundingClientRect()
   hero.value.style.setProperty('--x', `${event.clientX - rect.left}px`)
   hero.value.style.setProperty('--y', `${event.clientY - rect.top}px`)
-}
-
-// Fade sections in as they scroll into view.
-const vReveal = {
-  mounted(el) {
-    if (!('IntersectionObserver' in window)) return
-    el.classList.add('reveal')
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('reveal--in')
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.12 }
-    )
-    observer.observe(el)
-    el._revealObserver = observer
-  },
-  unmounted(el) {
-    el._revealObserver?.disconnect()
-  },
 }
 
 onMounted(() => {
@@ -284,59 +246,14 @@ em {
 }
 
 /* ─── Shared ─────────────────────────────────────────────────────────────── */
-.label {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
 
-.label--dim,
-.label__dim {
-  color: var(--text-muted);
-}
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.85rem 1.4rem;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
 
-.btn--primary {
-  background: var(--accent);
-  color: var(--bg);
-}
 
-.btn--primary:hover {
-  background: var(--accent-hi);
-  color: var(--bg);
-}
 
-.btn--ghost {
-  border: 1px solid var(--line);
-  color: var(--text);
-}
 
-.btn--ghost:hover {
-  border-color: var(--text-muted);
-  color: var(--text);
-}
 
-.btn__arrow {
-  transition: transform 0.2s ease;
-}
 
-.btn:hover .btn__arrow {
-  transform: translateX(4px);
-}
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 .hero {
@@ -467,35 +384,10 @@ em {
 }
 
 /* ─── Sections ───────────────────────────────────────────────────────────── */
-.section {
-  width: min(100% - 2 * clamp(1.25rem, 5vw, 2rem), 1000px);
-  margin-inline: auto;
-  padding-block: clamp(4rem, 10vw, 7rem);
-}
 
-.section__head {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-block-end: 2.5rem;
-}
 
-.section__head::after {
-  content: '';
-  border-block-start: 1px dashed var(--line);
-}
 
-.section__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
 
-.section__title em {
-  font-size: 1.1em;
-}
 
 /* Services */
 .services {
@@ -603,7 +495,7 @@ em {
 }
 
 .work__item:hover .work__arrow {
-  transform: translate(4px, -4px);
+  transform: translateX(4px);
 }
 
 /* Now */
@@ -656,41 +548,8 @@ em {
 }
 
 /* Talk */
-.section--talk {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  border-block-start: 1px dashed var(--line);
-}
 
-.talk__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 8vw, 5.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-}
 
-.talk__text {
-  margin: 0;
-  max-width: 40ch;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
-
-/* Scroll reveal */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  .reveal--in {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 @media (max-width: 600px) {
   .now__row {
