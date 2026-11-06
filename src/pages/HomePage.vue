@@ -2,117 +2,125 @@
   <main class="home" :class="{ 'home--ready': isReady }">
 
     <!-- ── Hero ────────────────────────────────────────────────────────── -->
-    <section class="home__hero">
-      <div class="home__hero-inner">
+    <section ref="hero" class="hero" @pointermove="moveSpotlight">
+      <div class="hero__spotlight" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="label hero__label">§ 00 / Index <span class="label__dim">· Israel · {{ year }}</span></p>
 
-        <div class="home__rule home__rule--top"></div>
+        <h1 class="hero__name">
+          <span class="hero__line">Aleksei</span>
+          <span class="hero__line hero__line--serif"><em>Kagan</em></span>
+        </h1>
 
-        <h1 class="home__name t-display">Aleksei Kagan</h1>
-
-        <div class="home__rule home__rule--bottom"></div>
-
-        <div class="home__tagline">
-          <div class="home__typewriter">
-            <span
-              v-for="(role, index) in roles"
-              :key="index"
-              :class="['home__role', { 'home__role--active': currentRoleIndex === index }]"
-            >
-              {{ role }}
-            </span>
-          </div>
-        </div>
-
-        <p class="home__subtitle">
-          <span>Creating Interfaces.</span>
-          <span>Automating Workflows.</span>
-          <span>Powering Ideas.</span>
+        <p class="hero__lede">
+          Full-stack engineer who ships <em>products</em>, not just features —
+          Vue and React interfaces, Node.js APIs and AI that real users touch.
         </p>
 
-        <div class="home__availability">
-          <span class="home__badge home__badge--open">Open to full-time</span>
-          <span class="home__badge">Available for consulting</span>
+        <ul class="hero__meta">
+          <li>Senior Fullstack</li>
+          <li>AI integration</li>
+          <li>7 years</li>
+          <li>3 products live</li>
+        </ul>
+
+        <div class="hero__actions">
+          <a href="mailto:roscheka@gmail.com" class="btn btn--primary">
+            Let's talk <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+          <RouterLink to="/portfolio" class="btn btn--ghost">Work &amp; projects</RouterLink>
         </div>
 
-        <nav class="home__cta">
-          <a href="#about" class="home__button home__button--primary">
-            My Stack
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
-          </a>
-          <a href="/portfolio" class="home__button home__button--secondary">
-            Work &amp; Projects
-          </a>
-        </nav>
-
-        <ul class="home__socials">
-          <li v-for="(social, index) in socials" :key="index">
-            <a
-              :href="social.url"
-              target="_blank"
-              class="home__social-link"
-              :aria-label="social.name"
-            >
-              <span class="home__social-icon" v-html="social.icon"></span>
+        <ul class="hero__socials">
+          <li v-for="social in socials" :key="social.name">
+            <a :href="social.url" target="_blank" rel="noopener" class="hero__social" :aria-label="social.name">
+              <span v-html="social.icon"></span>
             </a>
           </li>
         </ul>
-
       </div>
     </section>
 
-    <!-- ── About ───────────────────────────────────────────────────────── -->
-    <section class="home__about-section">
-      <div class="home__about-inner">
-        <article class="home__about-text">
-          <h2 class="home__section-title t-h1">About Me</h2>
-          <p class="home__text">
-            7 years building products end-to-end — React and Vue frontends, Node.js APIs,
-            and AI-powered features shipped to real users.
-          </p>
-          <p class="home__text">
-            Currently shipping three own products:
-            <a href="https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog" target="_blank" rel="noopener">iSolace</a>
-            — a private AI companion app with E2E encryption,
-            <a href="https://app.alex-kagan-develop.com" target="_blank" rel="noopener">ProfileNexus</a>
-            — an AI resume builder, and
-            <a href="https://loveisdate.co.il/" target="_blank" rel="noopener">Love is Date</a>
-            — a speed dating platform running live events. All in production.
-          </p>
-          <p class="home__text">
-            Available for senior full-time roles and consulting in full-stack development
-            and AI integration.
-          </p>
-          <div class="home__about-cta">
-            <a href="mailto:roscheka@gmail.com" class="home__button home__button--primary">
-              Let's talk
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </a>
-            <a href="/portfolio" class="home__button home__button--secondary">
-              Work &amp; Projects
-            </a>
-          </div>
-        </article>
+    <!-- ── § 01 Services ───────────────────────────────────────────────── -->
+    <section v-reveal class="section">
+      <header class="section__head">
+        <p class="label">§ 01 / Services</p>
+        <h2 class="section__title">What I can <em>build</em> for you</h2>
+      </header>
+      <ol class="services">
+        <li v-for="(service, index) in services" :key="service.title" class="services__item">
+          <p class="label label--dim">SVC · {{ pad(index + 1) }}</p>
+          <h3 class="services__title">{{ service.title }}</h3>
+          <p class="services__text">{{ service.text }}</p>
+          <p class="services__tags">{{ service.tags.join(' · ') }}</p>
+        </li>
+      </ol>
+    </section>
 
-        <aside id="about" class="home__stack">
-          <div
-            v-for="group in techStack"
-            :key="group.label"
-            class="home__stack-group"
+    <!-- ── § 02 Selected work ──────────────────────────────────────────── -->
+    <section v-reveal class="section">
+      <header class="section__head">
+        <p class="label">§ 02 / Selected work</p>
+        <h2 class="section__title">Products in <em>production</em></h2>
+      </header>
+      <ul class="work">
+        <li v-for="(item, index) in work" :key="item.name">
+          <component
+            :is="item.internal ? RouterLink : 'a'"
+            v-bind="item.internal ? { to: item.url } : { href: item.url, target: '_blank', rel: 'noopener' }"
+            class="work__item"
           >
-            <h3 class="home__stack-label t-label">{{ group.label }}</h3>
-            <ul class="home__stack-tags">
-              <li v-for="tag in group.tags" :key="tag" class="home__stack-tag">
-                {{ tag }}
-              </li>
-            </ul>
-          </div>
-        </aside>
+            <span class="work__num">{{ pad(index + 1) }}</span>
+            <span class="work__body">
+              <span class="work__name">{{ item.name }}</span>
+              <span class="work__text">{{ item.text }}</span>
+              <span class="work__tags">{{ item.tags.join(' · ') }}</span>
+            </span>
+            <span class="work__arrow" aria-hidden="true">↗</span>
+          </component>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── § 03 Now ────────────────────────────────────────────────────── -->
+    <section v-reveal class="section">
+      <header class="section__head">
+        <p class="label">§ 03 / Now <span class="label__dim">· {{ year }} · {{ month }}</span></p>
+        <h2 class="section__title">What I'm doing <em>this month</em></h2>
+      </header>
+      <dl class="now">
+        <div v-for="entry in nowEntries" :key="entry.term" class="now__row">
+          <dt class="label label--dim">{{ entry.term }}</dt>
+          <dd class="now__value">{{ entry.value }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ── § 04 Stack ──────────────────────────────────────────────────── -->
+    <section id="about" v-reveal class="section">
+      <header class="section__head">
+        <p class="label">§ 04 / Stack</p>
+        <h2 class="section__title">Tools I <em>trust</em></h2>
+      </header>
+      <div class="stack">
+        <div v-for="group in techStack" :key="group.label" class="stack__group">
+          <p class="label label--dim">{{ group.label }}</p>
+          <ul class="stack__tags">
+            <li v-for="tag in group.tags" :key="tag" class="stack__tag">{{ tag }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── § 05 Talk ───────────────────────────────────────────────────── -->
+    <section v-reveal class="section section--talk">
+      <p class="label">§ 05 / Talk</p>
+      <h2 class="talk__title">Let's build <em>something</em> real.</h2>
+      <p class="talk__text">Senior full-time roles and consulting in full-stack development and AI integration.</p>
+      <div class="hero__actions">
+        <a href="mailto:roscheka@gmail.com" class="btn btn--primary">roscheka@gmail.com <span class="btn__arrow" aria-hidden="true">→</span></a>
+        <a href="https://t.me/roschek" target="_blank" rel="noopener" class="btn btn--ghost">Telegram</a>
+        <a href="https://wa.me/972539310707" target="_blank" rel="noopener" class="btn btn--ghost">WhatsApp</a>
       </div>
     </section>
 
@@ -120,13 +128,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const isReady = ref(false)
+const hero = ref(null)
 
-const roles = ['Fullstack Developer', 'Vue.js Expert', 'React Specialist', 'AI Integration Engineer', 'Node.js Engineer']
-const currentRoleIndex = ref(0)
-const roleInterval = ref(null)
+const today = new Date()
+const year = today.getFullYear()
+const month = String(today.getMonth() + 1).padStart(2, '0')
+const pad = (n) => String(n).padStart(2, '0')
 
 const socials = [
   {
@@ -175,31 +186,87 @@ const techStack = [
   }
 ]
 
-function startRoleAnimation() {
-  roleInterval.value = setInterval(() => {
-    currentRoleIndex.value = (currentRoleIndex.value + 1) % roles.length
-  }, 3000)
+const services = [
+  {
+    title: 'Prototype → Production',
+    text: 'Web apps from idea to a deployed product: interface, API, database, hosting and monitoring.',
+    tags: ['Vue', 'React', 'Node.js', 'Vercel'],
+  },
+  {
+    title: 'AI features that ship',
+    text: 'LLM, speech and translation features wired into real products — with keys, limits and failure modes handled.',
+    tags: ['OpenAI', 'Gemini', 'Claude', 'Soniox'],
+  },
+  {
+    title: 'Consulting & audits',
+    text: 'Architecture reviews, performance work and an extra senior pair of hands for your team.',
+    tags: ['Architecture', 'Performance', 'Mentoring'],
+  },
+]
+
+const work = [
+  {
+    name: 'iSolace',
+    text: 'Private AI companion app with end-to-end encryption.',
+    tags: ['Flutter', 'AI', 'E2E encryption'],
+    url: 'https://play.google.com/store/apps/details?id=com.kagan.pocketpsycholog',
+  },
+  {
+    name: 'ProfileNexus',
+    text: 'AI resume builder.',
+    tags: ['AI', 'Web app'],
+    url: 'https://app.alex-kagan-develop.com',
+  },
+  {
+    name: 'Love is Date',
+    text: 'Speed dating platform running live events.',
+    tags: ['Web platform', 'Events'],
+    url: 'https://loveisdate.co.il/',
+  },
+  {
+    name: 'Lecture Translator',
+    text: 'Live lecture translation in five languages, installable on a phone.',
+    tags: ['PWA', 'Speech AI', 'Vue'],
+    url: '/translate/',
+    internal: true,
+  },
+]
+
+const nowEntries = [
+  { term: 'Building', value: 'Lecture Translator — live translation and summaries for lectures, as a PWA.' },
+  { term: 'Running', value: 'iSolace, ProfileNexus and Love is Date in production.' },
+  { term: 'Open to', value: 'Senior full-time roles and consulting.' },
+]
+function moveSpotlight(event) {
+  const rect = hero.value.getBoundingClientRect()
+  hero.value.style.setProperty('--x', `${event.clientX - rect.left}px`)
+  hero.value.style.setProperty('--y', `${event.clientY - rect.top}px`)
+}
+
+// Fade sections in as they scroll into view.
+const vReveal = {
+  mounted(el) {
+    if (!('IntersectionObserver' in window)) return
+    el.classList.add('reveal')
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('reveal--in')
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.12 }
+    )
+    observer.observe(el)
+    el._revealObserver = observer
+  },
+  unmounted(el) {
+    el._revealObserver?.disconnect()
+  },
 }
 
 onMounted(() => {
-  // Trigger animations on next frame so CSS transitions fire
-  requestAnimationFrame(() => {
-    isReady.value = true
-  })
-
-  startRoleAnimation()
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault()
-      const el = document.querySelector(this.getAttribute('href'))
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    })
-  })
-})
-
-onBeforeUnmount(() => {
-  if (roleInterval.value) clearInterval(roleInterval.value)
+  requestAnimationFrame(() => (isReady.value = true))
 })
 </script>
 
@@ -209,400 +276,431 @@ onBeforeUnmount(() => {
   color: var(--text);
 }
 
-/* ─── Hero ───────────────────────────────────────────────────────────────── */
-.home__hero {
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  padding: 4rem 2rem 3rem;
-}
-
-.home__hero-inner {
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* Ruled lines — animate on .home--ready */
-.home__rule {
-  height: 1px;
-  background-color: var(--accent);
-  width: 0;
-  transition: width 0s; /* overridden below */
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__rule {
-    animation: extend-rule 0.5s ease-out forwards;
-  }
-
-  .home--ready .home__rule--bottom {
-    animation-delay: 0.05s;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__rule {
-    width: 100%;
-  }
-}
-
-@keyframes extend-rule {
-  from { width: 0; }
-  to   { width: 100%; }
-}
-
-/* Name */
-.home__name {
-  margin: 1.25rem 0;
-  color: var(--text);
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__name {
-    animation: drop-in 0.45s ease-out 0.5s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__name { opacity: 1; }
-}
-
-@keyframes drop-in {
-  from {
-    opacity: 0;
-    transform: translateY(-28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Tagline / typewriter */
-.home__tagline {
-  margin-top: 1.5rem;
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__tagline {
-    animation: fade-up 0.4s ease-out 0.85s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__tagline { opacity: 1; }
-}
-
-.home__typewriter {
-  position: relative;
-  height: 1.6em;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.home__role {
-  position: absolute;
-  left: 0;
-  font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 500;
+em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
   color: var(--accent);
-  opacity: 0;
-  transform: translateY(1em);
-  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-.home__role--active {
-  opacity: 1;
-  transform: translateY(0);
+/* ─── Shared ─────────────────────────────────────────────────────────────── */
+.label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
-/* Subtitle */
-.home__subtitle {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  margin: 1.25rem 0 0;
-  font-family: var(--font-body);
-  font-size: 1rem;
+.label--dim,
+.label__dim {
   color: var(--text-muted);
-  opacity: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__subtitle {
-    animation: fade-up 0.4s ease-out 1s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__subtitle { opacity: 1; }
-}
-
-/* Availability badges */
-.home__availability {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__availability {
-    animation: fade-up 0.4s ease-out 0.95s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__availability { opacity: 1; }
-}
-
-.home__badge {
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.72rem;
-  letter-spacing: 0.07em;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn--primary:hover {
+  background: var(--accent-hi);
+  color: var(--bg);
+}
+
+.btn--ghost {
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.btn__arrow {
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.hero {
+  --x: 50%;
+  --y: 40%;
+  position: relative;
+  overflow: hidden;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem clamp(1.25rem, 5vw, 2rem) 4rem;
+}
+
+.hero__spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(560px circle at var(--x) var(--y), rgba(255, 107, 53, 0.13), transparent 60%);
+  pointer-events: none;
+  transition: background 0.1s linear;
+}
+
+.hero__inner {
+  position: relative;
+  width: min(100%, 1000px);
+  margin-inline: auto;
+}
+
+.hero__name {
+  margin: 1.5rem 0 2rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.6rem, 13vw, 9.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+}
+
+.hero__line {
+  display: block;
+}
+
+.hero__line--serif em {
+  font-size: 1.08em;
+  letter-spacing: -0.01em;
+}
+
+.hero__lede {
+  max-width: 34ch;
+  margin: 0 0 2rem;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 2.25rem;
+  padding: 1rem 0;
+  list-style: none;
+  border-block: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
-  border: 1px solid var(--bg-border);
-  padding: 0.35rem 0.8rem;
-  border-radius: 2rem;
 }
 
-.home__badge--open {
-  color: var(--text);
-  border-color: #4ade80;
+.hero__meta li + li::before {
+  content: '·';
+  margin-inline-end: 1.25rem;
+  color: var(--text-faint);
 }
 
-.home__badge--open::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #4ade80;
-  flex-shrink: 0;
-}
-
-/* CTA */
-.home__cta {
+.hero__actions {
   display: flex;
-  gap: 0.75rem;
   flex-wrap: wrap;
-  margin-top: 1.5rem;
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__cta {
-    animation: fade-up 0.4s ease-out 1.15s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__cta { opacity: 1; }
-}
-
-/* Socials */
-.home__socials {
-  display: flex;
   gap: 0.75rem;
-  margin-top: 2.5rem;
-  opacity: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .home--ready .home__socials {
-    animation: fade-up 0.4s ease-out 1.3s forwards;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__socials { opacity: 1; }
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Buttons */
-.home__button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.7rem 1.4rem;
-  border-radius: var(--radius);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.home__button--primary {
-  background-color: var(--accent);
-  color: var(--bg);
-}
-
-.home__button--primary:hover {
-  background-color: var(--accent-hi);
-  color: var(--bg);
-  transform: translateY(-1px);
-}
-
-.home__button--secondary {
-  background-color: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--bg-border);
-}
-
-.home__button--secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Social links */
-.home__social-link {
+.hero__socials {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  border: 1px solid var(--bg-border);
-  color: var(--text-muted);
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.home__social-link:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-
-.home__social-icon {
-  display: flex;
-}
-
-/* ─── About / Skills section ─────────────────────────────────────────────── */
-.home__about-section {
-  padding: 5rem 2rem 6rem;
-  border-top: 1px solid var(--line);
-}
-
-.home__about-inner {
-  max-width: 1100px;
-  margin: 0 auto;
+.hero__social {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-}
-
-.home__section-title {
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.75rem;
-}
-
-.home__section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  place-items: center;
   width: 2.5rem;
-  height: 2px;
-  background-color: var(--accent);
-}
-
-.home__text {
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
   color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.75;
-  margin-bottom: 1.25rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.home__about-cta {
-  margin-top: 2rem;
+.hero__social:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
-/* Tech stack */
-.home__stack {
+.hero__social :deep(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+/* Staggered entrance */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__inner > * {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .home--ready .hero__inner > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .home--ready .hero__inner > :nth-child(2) { transition-delay: 0.08s; }
+  .home--ready .hero__inner > :nth-child(3) { transition-delay: 0.16s; }
+  .home--ready .hero__inner > :nth-child(4) { transition-delay: 0.24s; }
+  .home--ready .hero__inner > :nth-child(5) { transition-delay: 0.32s; }
+  .home--ready .hero__inner > :nth-child(6) { transition-delay: 0.4s; }
+}
+
+/* ─── Sections ───────────────────────────────────────────────────────────── */
+.section {
+  width: min(100% - 2 * clamp(1.25rem, 5vw, 2rem), 1000px);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 10vw, 7rem);
+}
+
+.section__head {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1rem;
+  margin-block-end: 2.5rem;
 }
 
-.home__stack-label {
-  margin-bottom: 0.75rem;
+.section__head::after {
+  content: '';
+  border-block-start: 1px dashed var(--line);
 }
 
-.home__stack-tags {
+.section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.section__title em {
+  font-size: 1.1em;
+}
+
+/* Services */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services__item {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.home__stack-tag {
-  font-family: var(--font-body);
-  font-size: 0.825rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  background-color: var(--bg-elevated);
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.75rem;
   border: 1px solid var(--line);
-  padding: 0.3rem 0.75rem;
-  border-radius: 2rem;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.home__stack-tag:hover {
+.services__item:hover {
   border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.services__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.services__text {
+  margin: 0;
+  flex: 1;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.services__tags {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+/* Work */
+.work {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: 1px solid var(--line);
+}
+
+.work__item {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding-block: 1.6rem;
+  border-block-end: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.work__num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.work__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.work__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+  line-height: 1.1;
+  transition: color 0.2s ease;
+}
+
+.work__text {
+  color: var(--text-muted);
+}
+
+.work__tags {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.work__arrow {
+  font-size: 1.5rem;
+  color: var(--text-faint);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.work__item:hover .work__name,
+.work__item:hover .work__arrow {
   color: var(--accent);
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .home__about-inner {
+.work__item:hover .work__arrow {
+  transform: translate(4px, -4px);
+}
+
+/* Now */
+.now {
+  margin: 0;
+}
+
+.now__row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1.5rem;
+  padding-block: 1.1rem;
+  border-block-end: 1px dashed var(--line);
+}
+
+.now__value {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* Stack */
+.stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.stack__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.stack__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack__tag {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Talk */
+.section--talk {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-block-start: 1px dashed var(--line);
+}
+
+.talk__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.talk__text {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Scroll reveal */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .reveal--in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .now__row {
     grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .home__hero {
-    padding: 3rem 1.5rem 2rem;
-    min-height: 80vh;
-    align-items: flex-start;
-    padding-top: 5rem;
+    gap: 0.4rem;
   }
 
-  .home__about-section {
-    padding: 3rem 1.5rem 4rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .home__hero {
-    padding: 3rem 1rem 2rem;
-  }
-
-  .home__socials {
-    flex-wrap: wrap;
+  .work__item {
+    grid-template-columns: 2rem 1fr auto;
+    gap: 0.75rem;
   }
 }
 </style>
