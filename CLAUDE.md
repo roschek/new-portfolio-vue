@@ -24,13 +24,16 @@ Vue 3 + Vite SPA portfolio site, deployed on Vercel. No TypeScript — plain JS 
 
 **Routing:** `src/router/index.js` — routes map to page components in `src/pages/`. Vercel is configured with a catch-all SPA rewrite (`vercel.json`).
 
-**Theme system:** Dark-first (#0F172A background). `src/composables/useTheme.js` holds the reactive state (persisted to `localStorage`); `src/store/theme.js` re-exports it as `useThemeStore`. Components import from the store, not directly from the composable. The `layout--light` CSS class is toggled on the root `.layout` element to switch themes.
+**Theme:** Dark editorial palette (`--bg: #0D0D0D`, accent `#FF6B35`) defined as CSS variables in `src/assets/main.css`. `src/composables/useTheme.js` / `src/store/theme.js` still exist but no component toggles a light theme any more.
 
 **CSS conventions:** BEM naming (`block__element--modifier`) used throughout. Styles are `scoped` per component. Global resets and typography live in `src/assets/main.css`.
 
+**Editorial style (all site pages):** shared primitives live in `src/assets/editorial.css` (global classes `.page`, `.section`, `.section--first`, `.section--talk`, `.label`, `.btn--primary/--ghost`, `.actions`, `.tags`, `.accent` for the italic Instrument Serif accent). Section headers use `src/components/SectionHead.vue` (`label`, optional `note`, `level`, slot for the title with `<em>` accent, `lead` slot). `v-reveal` (`src/directives/reveal.js`, registered globally in `main.js`) fades blocks in on scroll. The router scrolls to `#hash` anchors (e.g. `/portfolio#love-is-date`).
+
+**Pages:** `/` home, `/portfolio` (cases + experience timeline), `/ai` (AI & Automation; the Telegram bots section is `#telegram`, and `/telegram` redirects there), `/codelab`, `/privacy-policy` (iSolace's Google Play privacy policy — keep the text and URL unchanged; iSolace itself is not shown elsewhere on the site).
+
 **Key third-party integrations:**
-- `vanta` + `three` — animated wave background on `HomePage.vue`, initialized in `onMounted` and destroyed in `onBeforeUnmount`
-- Telegram Login Widget + serverless auth — `TelegramPage.vue` embeds the official Telegram widget; `api/telegram-auth.js` is a Vercel serverless function that validates the HMAC and sends a welcome message via the Bot API. Requires `TELEGRAM_BOT_TOKEN` env var in Vercel.
+- Telegram Login Widget + serverless auth — `src/components/TelegramDemo.vue` (bot chat demo + official Telegram widget, used on `/ai`); `api/telegram-auth.js` is a Vercel serverless function that validates the HMAC and sends a welcome message via the Bot API. Requires `TELEGRAM_BOT_TOKEN` env var in Vercel. The widget only renders on the production domain.
 
 **Interactive components in CodeLab (`/codelab`):**
 - `AlgorithmVisualiser.vue` — animated sorting algorithm visualizer

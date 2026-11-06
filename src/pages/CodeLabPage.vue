@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 import SectionHead from '../components/SectionHead.vue'
 import AlgorithmVisualizer from '../components/AlgorithmVisualiser.vue'
 import ThreeModelViewer from '../components/ThreeModelViewer.vue'
@@ -51,9 +51,12 @@ const tabs = [
 
 const activeTab = ref(0)
 
+const siteTitle = document.title
 watch(activeTab, (index) => {
   document.title = `Code Lab - ${tabs[index].name}`
 }, { immediate: true })
+
+onBeforeUnmount(() => (document.title = siteTitle))
 </script>
 
 <style scoped>
