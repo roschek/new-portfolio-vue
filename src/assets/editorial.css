@@ -81,7 +81,7 @@ em.accent {
 }
 
 .section--first {
-  padding-block-start: clamp(3rem, 8vw, 5rem);
+  padding-block: clamp(3rem, 8vw, 5rem) 0;
 }
 
 .section--talk {
