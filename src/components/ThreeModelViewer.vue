@@ -185,7 +185,7 @@ function initThree() {
   
   // Create scene
   scene = new THREE.Scene()
-  scene.background = new THREE.Color(0x1a1a2e)
+  scene.background = new THREE.Color(0x161616)
   
   // Create camera
   const width = threeContainer.value.clientWidth
@@ -283,21 +283,21 @@ function createModel() {
   switch (selectedMaterial.value) {
     case 'standard':
       material = new THREE.MeshStandardMaterial({ 
-        color: 0x2563eb,
+        color: 0xff6b35,
         roughness: 0.5,
         metalness: 0.5
       })
       break
     case 'phong':
       material = new THREE.MeshPhongMaterial({ 
-        color: 0x2563eb,
+        color: 0xff6b35,
         shininess: 100,
         specular: 0x444444
       })
       break
     case 'wireframe':
       material = new THREE.MeshBasicMaterial({ 
-        color: 0x2563eb,
+        color: 0xff6b35,
         wireframe: true
       })
       break
@@ -305,7 +305,7 @@ function createModel() {
       material = new THREE.MeshNormalMaterial()
       break
     default:
-      material = new THREE.MeshStandardMaterial({ color: 0x2563eb })
+      material = new THREE.MeshStandardMaterial({ color: 0xff6b35 })
   }
   
   // Create mesh
@@ -435,14 +435,14 @@ onBeforeUnmount(() => {
 
 .three-model__label {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .three-model__select {
   padding: 0.5rem 1rem;
-  background-color: rgba(30, 41, 59, 0.8);
+  background-color: var(--bg);
   color: white;
-  border: 1px solid rgba(71, 85, 105, 0.5);
+  border: 1px solid var(--line);
   border-radius: 0.375rem;
   outline: none;
   cursor: pointer;
@@ -450,7 +450,7 @@ onBeforeUnmount(() => {
 }
 
 .three-model__select:focus {
-  border-color: #3b82f6;
+  border-color: var(--accent);
 }
 
 .three-model__container {
@@ -461,7 +461,7 @@ onBeforeUnmount(() => {
 
 .three-model__canvas-container {
   height: 400px;
-  background-color: rgba(15, 23, 42, 0.7);
+  background-color: var(--bg);
   border-radius: 0.5rem;
   overflow: hidden;
   margin: 0;
@@ -481,7 +481,7 @@ onBeforeUnmount(() => {
 }
 
 .three-model__controls-panel {
-  background-color: rgba(30, 41, 59, 0.5);
+  background-color: var(--bg);
   padding: 1.5rem;
   border-radius: 0.5rem;
   display: flex;
@@ -499,15 +499,15 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  border: 1px solid rgba(71, 85, 105, 0.3);
+  border: 1px solid var(--line);
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: rgba(30, 41, 59, 0.4);
+  background-color: var(--bg);
 }
 
 .three-model__control-legend {
   padding: 0 0.5rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 
@@ -519,7 +519,7 @@ onBeforeUnmount(() => {
 
 .three-model__axis-label {
   width: 4rem;
-  color: #cbd5e1;
+  color: var(--text);
   font-size: 0.875rem;
 }
 
@@ -527,7 +527,7 @@ onBeforeUnmount(() => {
   flex: 1;
   height: 6px;
   -webkit-appearance: none;
-  background-color: rgba(71, 85, 105, 0.5);
+  background-color: var(--line);
   border-radius: 3px;
   outline: none;
 }
@@ -537,14 +537,14 @@ onBeforeUnmount(() => {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #3b82f6;
+  background-color: var(--accent);
   cursor: pointer;
 }
 
 .three-model__value {
   min-width: 3rem;
   text-align: right;
-  color: #cbd5e1;
+  color: var(--text);
   font-family: monospace;
 }
 
@@ -552,16 +552,16 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #cbd5e1;
+  color: var(--text);
   cursor: pointer;
   font-size: 0.875rem;
 }
 
 .three-model__info-box {
-  background-color: rgba(15, 23, 42, 0.7);
+  background-color: var(--bg);
   padding: 1rem;
   border-radius: 0.5rem;
-  border-left: 3px solid #3b82f6;
+  border-left: 3px solid var(--accent);
 }
 
 .three-model__info-title {
@@ -571,7 +571,7 @@ onBeforeUnmount(() => {
 }
 
 .three-model__info-box p {
-  color: #cbd5e1;
+  color: var(--text);
   font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
@@ -591,12 +591,12 @@ onBeforeUnmount(() => {
 }
 
 .three-model__button--primary {
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 .three-model__button--primary:hover {
-  background-color: #2563eb;
+  background-color: var(--accent-hi);
 }
 
 .three-model__button--wide {

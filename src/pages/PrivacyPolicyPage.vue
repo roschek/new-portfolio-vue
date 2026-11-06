@@ -2,6 +2,7 @@
   <section class="policy">
     <div class="policy__container">
       <header class="policy__header">
+        <p class="label">§ Legal / Privacy</p>
         <h1 class="policy__title">Privacy Policy for iSolace</h1>
         <p class="policy__effective-date"><strong>Effective Date:</strong> November 12, 2025</p>
       </header>
@@ -165,77 +166,82 @@
 
 <style scoped>
 .policy {
-  padding: 4rem 2rem 6rem;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 2rem) clamp(4rem, 10vw, 7rem);
   background-color: var(--bg);
   color: var(--text);
-  min-height: 80vh;
 }
 
 .policy__container {
-  max-width: 760px;
-  margin: 0 auto;
+  max-width: 68ch;
+  margin-inline: auto;
 }
 
 .policy__header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block-end: 2.5rem;
+  padding-block-end: 2rem;
+  border-block-end: 1px dashed var(--line);
 }
 
 .policy__title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--text);
-  margin: 0 0 0.5rem;
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
 }
 
 .policy__effective-date {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-muted);
   margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 
 .policy__intro {
-  font-family: var(--font-body);
+  margin: 0;
+  font-size: 1.1rem;
   line-height: 1.7;
-  color: var(--text-muted);
-  margin-bottom: 0;
 }
 
 .policy__section {
-  margin-top: 2.5rem;
+  margin-block-start: 3rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--line);
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
 .policy__section-title {
+  margin: 0 0 1rem;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--text);
-  margin: 0 0 0.75rem;
 }
 
 .policy__list {
-  padding-left: 1.25rem;
-  line-height: 1.75;
-  color: var(--text-muted);
-  font-family: var(--font-body);
+  padding-inline-start: 1.25rem;
+  list-style: square;
 }
 
 .policy__list li {
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.6rem;
+}
+
+.policy__list li::marker {
+  color: var(--accent);
+}
+
+.policy__section :deep(strong) {
+  color: var(--text);
 }
 
 .policy__contact {
   font-weight: 600;
   color: var(--accent);
-}
-
-@media (max-width: 600px) {
-  .policy {
-    padding: 3rem 1.25rem 4rem;
-  }
 }
 </style>

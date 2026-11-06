@@ -569,15 +569,15 @@ onMounted(() => {
 }
 
 .algorithm__control-group {
-  border: 1px solid rgba(71, 85, 105, 0.5);
+  border: 1px solid var(--line);
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: rgba(30, 41, 59, 0.4);
+  background-color: var(--bg);
 }
 
 .algorithm__control-legend {
   padding: 0 0.5rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 
@@ -594,15 +594,15 @@ onMounted(() => {
 
 .algorithm__label {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   min-width: 6rem;
 }
 
 .algorithm__select {
   padding: 0.5rem 1rem;
-  background-color: rgba(30, 41, 59, 0.8);
+  background-color: var(--bg);
   color: white;
-  border: 1px solid rgba(71, 85, 105, 0.5);
+  border: 1px solid var(--line);
   border-radius: 0.375rem;
   outline: none;
   cursor: pointer;
@@ -610,7 +610,7 @@ onMounted(() => {
 }
 
 .algorithm__select:focus {
-  border-color: #3b82f6;
+  border-color: var(--accent);
 }
 
 .algorithm__actions {
@@ -631,21 +631,21 @@ onMounted(() => {
 }
 
 .algorithm__button--primary {
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 .algorithm__button--primary:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: var(--accent-hi);
 }
 
 .algorithm__button--secondary {
-  background-color: rgba(71, 85, 105, 0.5);
-  color: #e2e8f0;
+  background-color: var(--line);
+  color: var(--text);
 }
 
 .algorithm__button--secondary:hover:not(:disabled) {
-  background-color: rgba(71, 85, 105, 0.7);
+  background-color: var(--bg-border);
 }
 
 .algorithm__button--danger {
@@ -669,7 +669,7 @@ onMounted(() => {
 }
 
 .algorithm__visualization {
-  background-color: rgba(15, 23, 42, 0.7);
+  background-color: var(--bg);
   height: 300px;
   display: flex;
   align-items: flex-end;
@@ -694,26 +694,26 @@ onMounted(() => {
 
 .algorithm__bar {
   flex: 1;
-  background-color: #4b5563;
+  background-color: var(--text-faint);
   min-width: 3px;
   transition: height 0.3s ease, background-color 0.3s ease;
 }
 
 .algorithm__bar--current {
-  background-color: #3b82f6;
+  background-color: var(--accent);
 }
 
 .algorithm__bar--comparing {
-  background-color: #f59e0b;
+  background-color: var(--text);
 }
 
 .algorithm__bar--sorted {
-  background-color: #10b981;
+  background-color: #7ccf8a;
 }
 
 .algorithm__info {
   padding: 1.5rem;
-  background-color: rgba(30, 41, 59, 0.5);
+  background-color: var(--bg);
   border-radius: 0.5rem;
 }
 
@@ -732,18 +732,18 @@ onMounted(() => {
 
 .algorithm__stat-label {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-bottom: 0.25rem;
 }
 
 .algorithm__stat-value {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #e2e8f0;
+  color: var(--text);
 }
 
 .algorithm__explanation {
-  color: #cbd5e1;
+  color: var(--text);
   line-height: 1.6;
 }
 
@@ -764,13 +764,13 @@ onMounted(() => {
 }
 
 .algorithm__complexity-term {
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-bottom: 0.25rem;
   font-weight: normal;
 }
 
 .algorithm__complexity-definition {
-  color: #38bdf8;
+  color: var(--accent);
   font-family: monospace;
   margin: 0;
 }
