@@ -1,73 +1,116 @@
 <template>
-  <section class="ai">
-    <div class="ai__container">
+  <main class="page ai">
+    <section class="section section--first">
+      <SectionHead label="§ 00 / AI & Automation" :level="1">
+        AI that <em>ships</em>
+        <template #lead>
+          Speech, language models and bots wired into real products — with keys, limits and
+          failure modes handled. Below: what is in production, and the Telegram bots I build.
+        </template>
+      </SectionHead>
+    </section>
 
-      <header class="ai__header">
-        <h2 class="ai__title t-h1">AI Integration</h2>
-        <p class="ai__lead t-body">
-          Shipping products that put AI to practical use — private companions, document generators,
-          helpdesk automation. Not demos: production apps used by real people.
+    <!-- ── § 01 AI in production ───────────────────────────────────────── -->
+    <section class="section ai__projects">
+      <SectionHead label="§ 01 / AI in production">Models doing <em>real work</em></SectionHead>
+
+      <article
+        v-for="(project, index) in projects"
+        :id="project.id"
+        :key="project.id"
+        v-reveal
+        class="project"
+      >
+        <p class="label project__meta">
+          <span>AI · {{ pad(index + 1) }}</span>
+          <span class="label__dim">{{ project.year }}</span>
+          <span v-if="project.own" class="project__own">Own product</span>
         </p>
-      </header>
-
-      <div class="ai__timeline">
-        <article
-          v-for="(item, index) in timeline"
-          :key="index"
-          class="ai__item"
-          ref="timelineItems"
-        >
-          <div class="ai__marker"></div>
-          <div class="ai__content">
-            <div class="ai__item-meta">
-              <span class="ai__item-year t-mono">{{ item.year }}</span>
-              <span v-if="item.own" class="ai__own-badge">Own product</span>
-            </div>
-            <h3 class="ai__item-title">{{ item.title }}</h3>
-            <p class="ai__item-description t-body">{{ item.description }}</p>
-            <ul class="ai__outcomes">
-              <li
-                v-for="(outcome, idx) in item.outcomes"
-                :key="idx"
-                class="ai__outcome"
-              >{{ outcome }}</li>
+        <div class="project__main">
+          <h3 class="project__title">{{ project.title }}</h3>
+          <p class="project__text">{{ project.description }}</p>
+          <ul class="project__outcomes">
+            <li v-for="outcome in project.outcomes" :key="outcome">{{ outcome }}</li>
+          </ul>
+          <div class="project__foot">
+            <ul class="tags">
+              <li v-for="tech in project.technologies" :key="tech" class="tags__item">{{ tech }}</li>
             </ul>
-            <div class="ai__technologies">
-              <span
-                v-for="(tech, idx) in item.technologies"
-                :key="idx"
-                class="ai__technology"
-              >{{ tech }}</span>
-            </div>
+            <RouterLink v-if="project.caseLink" :to="project.caseLink" class="project__link">
+              Full case <span aria-hidden="true">→</span>
+            </RouterLink>
           </div>
-        </article>
-      </div>
+        </div>
+      </article>
+    </section>
 
-    </div>
-  </section>
+    <!-- ── § 02 Telegram bots ──────────────────────────────────────────── -->
+    <section id="telegram" v-reveal class="section ai__telegram">
+      <SectionHead label="§ 02 / Telegram bots">Bots that <em>do the work</em>
+        <template #lead>
+          Production bots for payment alerts, AI-powered support and onboarding flows.
+          Try the live demo below.
+        </template>
+      </SectionHead>
+
+      <ol class="bots">
+        <li v-for="(bot, index) in bots" :key="bot.title" class="bots__item">
+          <p class="label label--dim">BOT · {{ pad(index + 1) }}</p>
+          <h3 class="bots__title">{{ bot.title }}</h3>
+          <p class="bots__text">
+            {{ bot.text }}
+            <a v-if="bot.anchor" :href="bot.anchor" class="bots__more">See § 01 →</a>
+          </p>
+        </li>
+      </ol>
+
+      <TelegramDemo />
+    </section>
+
+    <!-- ── § 03 Talk ───────────────────────────────────────────────────── -->
+    <section v-reveal class="section section--talk accent">
+      <p class="label">§ 03 / Talk</p>
+      <h2 class="talk__title">Need AI in <em>your product?</em></h2>
+      <p class="talk__text">LLM, speech and bot features built into real products — scoped, shipped and maintained.</p>
+      <div class="actions">
+        <a href="mailto:roscheka@gmail.com" class="btn btn--primary">roscheka@gmail.com <span class="btn__arrow" aria-hidden="true">→</span></a>
+        <a href="https://t.me/roschek" target="_blank" rel="noopener" class="btn btn--ghost">Telegram</a>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import SectionHead from '../components/SectionHead.vue'
+import TelegramDemo from '../components/TelegramDemo.vue'
 
-const timeline = [
+const pad = (n) => String(n).padStart(2, '0')
+
+const projects = [
   {
-    title: 'iSolace — Private AI Companion',
-    year: '2025 – Present',
+    id: 'lecture-translator',
+    title: 'Lecture Translator',
+    year: '2026',
     own: true,
-    description: 'Solo-built and shipped a Flutter AI companion app to Google Play. The core product promise: conversations stay private. Messages are end-to-end encrypted and never leave the device unencrypted.',
+    caseLink: '/portfolio#lecture-translator',
+    description:
+      'An installable PWA that listens to a lecture and translates it live into English, Hebrew, Russian, German or Spanish, then turns the transcript into a summary.',
     outcomes: [
-      'End-to-end encrypted conversation storage — zero plaintext on server.',
-      'Persistent session memory: the AI carries full context across all conversations.',
-      'Low-latency voice + text pipeline built on top of OpenAI API.',
+      'Real-time speech recognition and translation over a streaming WebSocket (Soniox), with auto-reconnect and autosave every few seconds.',
+      'Summaries through Gemini, Claude or OpenAI — the user picks the provider and brings their own key; no server in between.',
+      'Lectures are stored on the device in IndexedDB; core logic covered by tests at 92%.',
     ],
-    technologies: ['Flutter', 'Dart', 'OpenAI API', 'E2EE', 'Voice'],
+    technologies: ['Soniox', 'Gemini', 'Claude', 'OpenAI', 'Vue 3', 'PWA'],
   },
   {
+    id: 'profilenexus',
     title: 'ProfileNexus — AI Resume Builder',
-    year: '2024 – Present',
+    year: '2024 – now',
     own: true,
-    description: 'Full-stack AI tool that generates job-specific resumes and cover letters. Built every layer solo: Flutter frontend, FastAPI backend, and Gemini API integration for context-aware generation.',
+    caseLink: '/portfolio#profilenexus',
+    description:
+      'Full-stack AI tool that generates job-specific resumes and cover letters. Built every layer solo: Flutter frontend, FastAPI backend, and Gemini API integration for context-aware generation.',
     outcomes: [
       'Gemini API prompt chain tailors output to job description and user experience.',
       'i18n support shipped at launch; deployed on Vercel + Render with CI/CD pipeline.',
@@ -76,9 +119,11 @@ const timeline = [
     technologies: ['Flutter', 'Python', 'FastAPI', 'Gemini API', 'Vercel', 'CI/CD'],
   },
   {
+    id: 'ai-support',
     title: 'Customer Support Automation',
     year: '2023',
-    description: 'Built conversational helpdesk bots for enterprise clients using LangChain and OpenAI. The bots handle intent classification, ticket routing, and first-response drafts — cutting manual triage time.',
+    description:
+      'Built conversational helpdesk bots for enterprise clients using LangChain and OpenAI. The bots handle intent classification, ticket routing, and first-response drafts — cutting manual triage time.',
     outcomes: [
       'LangChain orchestration layer with retrieval-augmented generation over client knowledge bases.',
       'OpenAI integration for intent detection and dynamic response generation.',
@@ -87,9 +132,11 @@ const timeline = [
     technologies: ['LangChain', 'OpenAI', 'Next.js', 'Node.js', 'RAG'],
   },
   {
+    id: 'image-pipeline',
     title: 'Image Synthesis Pipeline',
     year: '2022',
-    description: 'Built a unified REST API wrapping Stable Diffusion and DALL-E for internal content teams. Single endpoint, model routing based on task type (photo-realistic vs. illustration), result caching.',
+    description:
+      'Built a unified REST API wrapping Stable Diffusion and DALL-E for internal content teams. Single endpoint, model routing based on task type (photo-realistic vs. illustration), result caching.',
     outcomes: [
       'Unified API surface across two model providers with transparent fallback logic.',
       'Result deduplication cache reduced API spend by ~35% on repeated prompts.',
@@ -99,212 +146,163 @@ const timeline = [
   },
 ]
 
-const timelineItems = ref([])
-
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ai__item--visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.15 }
-  )
-
-  if (timelineItems.value) {
-    timelineItems.value.forEach(item => observer.observe(item))
-  }
-})
+const bots = [
+  {
+    title: 'AI Customer Support',
+    text: 'Retrieval-augmented bots over client knowledge bases — automated first response and ticket routing.',
+    anchor: '#ai-support',
+  },
+  {
+    title: 'Payment & Payout Alerts',
+    text: 'Real-time transaction notifications integrated with payment APIs — built for the payouts.com tech stack with inline action buttons.',
+  },
+  {
+    title: 'Onboarding & Data Collection',
+    text: 'Conversational flows with inline keyboards for user onboarding, form data collection, and CRM integration via webhooks.',
+  },
+]
 </script>
 
 <style scoped>
-.ai {
-  padding: 4rem 2rem 6rem;
-  min-height: 80vh;
-  background-color: var(--bg);
+.ai__projects {
+  padding-block-start: clamp(2rem, 5vw, 3rem);
 }
 
-.ai__container {
-  max-width: 900px;
-  margin: 0 auto;
+/* Projects */
+.project {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: 2.5rem;
+  border-block-end: 1px dashed var(--line);
+  scroll-margin-block-start: 5rem;
 }
 
-/* ─── Header ─────────────────────────────────────────────────────────────── */
-.ai__header {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--line);
+.project:first-of-type {
+  padding-block-start: 0;
 }
 
-.ai__title {
-  margin: 0 0 1rem;
-  color: var(--text);
-}
-
-.ai__lead {
-  margin: 0;
-  max-width: 600px;
-  color: var(--text-muted);
-}
-
-/* ─── Timeline ───────────────────────────────────────────────────────────── */
-.ai__timeline {
-  position: relative;
-  padding-left: 2rem;
-  border-left: 1px solid var(--line);
-}
-
-.ai__item {
-  position: relative;
-  margin-bottom: 3rem;
-  opacity: 0;
-  transform: translateX(-12px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-.ai__item--visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai__item {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-.ai__marker {
-  position: absolute;
-  top: 0.35rem;
-  left: -2.4rem;
-  width: 10px;
-  height: 10px;
-  background-color: var(--accent);
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-}
-
-.ai__content {
-  background-color: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1.5rem 1.75rem;
-  transition: border-color 0.2s ease;
-}
-
-.ai__item:hover .ai__content {
-  border-color: var(--bg-border);
-}
-
-/* ─── Item internals ─────────────────────────────────────────────────────── */
-.ai__item-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.ai__item-year {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-.ai__own-badge {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background-color: var(--accent-dim);
-  padding: 0.15rem 0.5rem;
-  border-radius: 2px;
-}
-
-.ai__item-title {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0 0 0.75rem;
-}
-
-.ai__item-description {
-  color: var(--text-muted);
-  margin: 0 0 1.25rem;
-}
-
-/* ─── Outcomes ───────────────────────────────────────────────────────────── */
-.ai__outcomes {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
+.project__meta {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.6rem;
+  align-items: flex-start;
 }
 
-.ai__outcome {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
+.project__own {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-size: 0.65rem;
+}
+
+.project__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.project__text {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.project__outcomes {
+  margin: 0;
+  padding-inline-start: 1.1rem;
+  list-style: square;
   color: var(--text-muted);
-  padding-left: 1.2rem;
-  position: relative;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-.ai__outcome::before {
-  content: '→';
-  position: absolute;
-  left: 0;
+.project__outcomes li::marker {
   color: var(--accent);
-  font-size: 0.85rem;
 }
 
-/* ─── Tech tags ──────────────────────────────────────────────────────────── */
-.ai__technologies {
+.project__foot {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.ai__technology {
+.project__link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.project__link:hover {
+  text-decoration: underline;
+}
+
+/* Telegram */
+.ai__telegram {
+  scroll-margin-block-start: 4rem;
+}
+
+.bots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin: 0 0 3.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.bots__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--line);
+}
+
+.bots__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.bots__text {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.bots__more {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--text-muted);
-  background-color: transparent;
-  border: 1px solid var(--bg-border);
-  padding: 0.2rem 0.55rem;
-  border-radius: var(--radius);
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.ai__technology:hover {
-  border-color: var(--accent);
   color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-/* ─── Mobile ─────────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .ai {
-    padding: 3rem 1.25rem 4rem;
+@media (max-width: 760px) {
+  .project {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
   }
 
-  .ai__timeline {
-    padding-left: 1.5rem;
+  .project__meta {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  .ai__marker {
-    left: -2rem;
-  }
-
-  .ai__content {
-    padding: 1.25rem;
+  .bots {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

@@ -1,165 +1,109 @@
 <template>
-  <section class="telegram">
-    <div class="telegram__container">
-
-      <header class="telegram__header">
-        <h2 class="telegram__title t-h1">Telegram Bots</h2>
-        <p class="telegram__lead t-body">
-          Production bots for payment alerts, AI-powered support, and user onboarding flows.
-          Try the live demo below.
-        </p>
-      </header>
-
-      <div class="telegram__use-cases">
-        <div class="telegram__use-case">
-          <div class="telegram__use-case-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-          </div>
-          <div class="telegram__use-case-content">
-            <h3>AI Customer Support</h3>
-            <p>LangChain-powered bots with retrieval-augmented generation over client knowledge bases — automated first-response and ticket routing.</p>
-          </div>
-        </div>
-
-        <div class="telegram__use-case">
-          <div class="telegram__use-case-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-              <line x1="6" y1="1" x2="6" y2="4"></line>
-              <line x1="10" y1="1" x2="10" y2="4"></line>
-              <line x1="14" y1="1" x2="14" y2="4"></line>
-            </svg>
-          </div>
-          <div class="telegram__use-case-content">
-            <h3>Payment & Payout Alerts</h3>
-            <p>Real-time transaction notifications integrated with payment APIs — built for the payouts.com tech stack with inline action buttons.</p>
-          </div>
-        </div>
-
-        <div class="telegram__use-case">
-          <div class="telegram__use-case-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-          </div>
-          <div class="telegram__use-case-content">
-            <h3>Onboarding & Data Collection</h3>
-            <p>Conversational flows with inline keyboards for user onboarding, form data collection, and CRM integration via webhooks.</p>
+  <div class="telegram__demo-section">
+    <div class="telegram__phone">
+      <div class="telegram__phone-header">
+        <div class="telegram__status-bar"></div>
+        <div class="telegram__chat-info">
+          <div class="telegram__bot-avatar"></div>
+          <div class="telegram__bot-info">
+            <div class="telegram__bot-name">Portfolio Bot</div>
+            <div class="telegram__bot-status">online</div>
           </div>
         </div>
       </div>
 
-      <div class="telegram__demo-section">
-        <div class="telegram__phone">
-          <div class="telegram__phone-header">
-            <div class="telegram__status-bar"></div>
-            <div class="telegram__chat-info">
-              <div class="telegram__bot-avatar"></div>
-              <div class="telegram__bot-info">
-                <div class="telegram__bot-name">Portfolio Bot</div>
-                <div class="telegram__bot-status">online</div>
+      <div class="telegram__chat-window" ref="chatBox">
+        <div
+          v-for="(message, index) in visibleMessages"
+          :key="index"
+          :class="['telegram__message', message.isBot ? 'telegram__message--bot' : 'telegram__message--user']"
+        >
+          <div class="telegram__message-bubble">
+            <template v-if="message.type === 'text'">
+              {{ message.text }}
+            </template>
+            <template v-else-if="message.type === 'buttons'">
+              <div class="telegram__message-text">{{ message.text }}</div>
+              <div class="telegram__buttons">
+                <button
+                  v-for="(button, btnIndex) in message.buttons"
+                  :key="btnIndex"
+                  class="telegram__button-inline"
+                  @click="sendBotCommand(button.command)"
+                >
+                  {{ button.text }}
+                </button>
               </div>
-            </div>
+            </template>
           </div>
-
-          <div class="telegram__chat-window" ref="chatBox">
-            <div
-              v-for="(message, index) in visibleMessages"
-              :key="index"
-              :class="['telegram__message', message.isBot ? 'telegram__message--bot' : 'telegram__message--user']"
-            >
-              <div class="telegram__message-bubble">
-                <template v-if="message.type === 'text'">
-                  {{ message.text }}
-                </template>
-                <template v-else-if="message.type === 'buttons'">
-                  <div class="telegram__message-text">{{ message.text }}</div>
-                  <div class="telegram__buttons">
-                    <button
-                      v-for="(button, btnIndex) in message.buttons"
-                      :key="btnIndex"
-                      class="telegram__button-inline"
-                      @click="sendBotCommand(button.command)"
-                    >
-                      {{ button.text }}
-                    </button>
-                  </div>
-                </template>
-              </div>
-              <div class="telegram__message-time">{{ message.time }}</div>
-            </div>
-
-            <div v-if="isTyping" class="telegram__message telegram__message--bot">
-              <div class="telegram__message-bubble">
-                <div class="telegram__typing">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="telegram__command-buttons">
-            <button
-              v-for="(cmd, index) in commandButtons"
-              :key="index"
-              class="telegram__command-button"
-              @click="sendBotCommand(cmd.command)"
-            >
-              {{ cmd.text }}
-            </button>
-          </div>
-
-          <form @submit.prevent="sendUserMessage" class="telegram__input-area">
-            <input
-              v-model="userInput"
-              type="text"
-              placeholder="Type a message..."
-              class="telegram__input"
-              :disabled="isTyping"
-            />
-            <button
-              type="submit"
-              class="telegram__send-button"
-              :disabled="!userInput.trim() || isTyping"
-              aria-label="Send message"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </form>
+          <div class="telegram__message-time">{{ message.time }}</div>
         </div>
 
-        <div class="telegram__auth-section">
-          <h3 class="telegram__auth-title">Telegram Auth Widget</h3>
-          <p class="telegram__auth-desc t-small">
-            Bots can handle authentication directly — no passwords, no forms.
-            Try it:
-          </p>
-          <div class="telegram__auth-container">
-            <div v-if="!loggedIn" ref="telegramButton" class="telegram__auth-button"></div>
-            <div v-else class="telegram__auth-result">
-              <div class="telegram__auth-avatar" :style="userData.photo_url ? `background-image: url(${userData.photo_url})` : ''"></div>
-              <div class="telegram__auth-info">
-                <p class="telegram__auth-name">Hello, {{ userData.first_name }}!</p>
-                <p class="telegram__auth-sub t-small">
-                  <span v-if="userData.username">@{{ userData.username }} · </span>
-                  <button @click="logOut" class="telegram__auth-logout">Log out</button>
-                </p>
-              </div>
+        <div v-if="isTyping" class="telegram__message telegram__message--bot">
+          <div class="telegram__message-bubble">
+            <div class="telegram__typing">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
         </div>
       </div>
 
+      <div class="telegram__command-buttons">
+        <button
+          v-for="(cmd, index) in commandButtons"
+          :key="index"
+          class="telegram__command-button"
+          @click="sendBotCommand(cmd.command)"
+        >
+          {{ cmd.text }}
+        </button>
+      </div>
+
+      <form @submit.prevent="sendUserMessage" class="telegram__input-area">
+        <input
+          v-model="userInput"
+          type="text"
+          placeholder="Type a message..."
+          class="telegram__input"
+          :disabled="isTyping"
+        />
+        <button
+          type="submit"
+          class="telegram__send-button"
+          :disabled="!userInput.trim() || isTyping"
+          aria-label="Send message"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
     </div>
-  </section>
+
+    <div class="telegram__auth-section">
+      <h3 class="telegram__auth-title">Telegram Auth Widget</h3>
+      <p class="telegram__auth-desc t-small">
+        Bots can handle authentication directly — no passwords, no forms.
+        Try it:
+      </p>
+      <div class="telegram__auth-container">
+        <div v-if="!loggedIn" ref="telegramButton" class="telegram__auth-button"></div>
+        <div v-else class="telegram__auth-result">
+          <div class="telegram__auth-avatar" :style="userData.photo_url ? `background-image: url(${userData.photo_url})` : ''"></div>
+          <div class="telegram__auth-info">
+            <p class="telegram__auth-name">Hello, {{ userData.first_name }}!</p>
+            <p class="telegram__auth-sub t-small">
+              <span v-if="userData.username">@{{ userData.username }} · </span>
+              <button @click="logOut" class="telegram__auth-logout">Log out</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -340,96 +284,8 @@ onUnmounted(() => {
   delete window.handleTelegramAuth
 })
 </script>
-
 <style scoped>
-.telegram {
-  padding: 4rem 2rem 6rem;
-  min-height: 80vh;
-  background-color: var(--bg);
-}
-
-.telegram__container {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-/* ─── Header ─────────────────────────────────────────────────────────────── */
-.telegram__header {
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.telegram__title {
-  margin: 0 0 1rem;
-  color: var(--text);
-}
-
-.telegram__lead {
-  margin: 0;
-  max-width: 560px;
-  color: var(--text-muted);
-}
-
-/* ─── Use cases ──────────────────────────────────────────────────────────── */
-.telegram__use-cases {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.telegram__use-case {
-  display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid var(--line);
-  background-color: var(--bg-elevated);
-  transition: background-color 0.2s;
-}
-
-.telegram__use-case:last-child {
-  border-bottom: none;
-}
-
-.telegram__use-case:hover {
-  background-color: var(--bg-border);
-}
-
-.telegram__use-case-icon {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  background-color: var(--accent-dim);
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
-
-.telegram__use-case-content h3 {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0 0 0.35rem;
-}
-
-.telegram__use-case-content p {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.55;
-  margin: 0;
-}
-
-/* ─── Demo section ───────────────────────────────────────────────────────── */
+/* Live bot demo + Telegram Login widget (moved from the former /telegram page). */
 .telegram__demo-section {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -761,13 +617,4 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 600px) {
-  .telegram {
-    padding: 3rem 1.25rem 4rem;
-  }
-
-  .telegram__use-case {
-    padding: 1rem 1.25rem;
-  }
-}
 </style>
