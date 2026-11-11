@@ -35,6 +35,13 @@
         </div>
       </header>
 
+      <button
+        v-if="!session.summary && activeTab !== 'summary' && session.paragraphs.length"
+        type="button"
+        class="lecture__cta"
+        @click="makeSummary"
+      >∑ {{ t('summaryMake') }} <span aria-hidden="true">→</span></button>
+
       <div class="lecture__tabs" role="tablist">
         <button
           v-for="tab in tabs"
@@ -48,7 +55,7 @@
         >{{ tab.label }}</button>
       </div>
 
-      <SummaryPanel v-if="activeTab === 'summary'" :session="session" @update="persist" />
+      <SummaryPanel v-if="activeTab === 'summary'" :session="session" :autostart="autostart" @update="persist" />
       <ol v-else class="lecture__text">
         <li v-for="(p, index) in session.paragraphs" :key="index" class="lecture__para">
           <span class="lecture__time">{{ formatTime(p.startMs) }}</span>
@@ -61,7 +68,7 @@
 
 <script setup>
 import { ref, computed, nextTick, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { t } from '../i18n.js'
 import { getSession, saveSession, deleteSession } from '../services/sessionStore.js'
 import { formatTime, toMarkdown, toText } from '../services/exporter.js'
@@ -73,11 +80,13 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const route = useRoute()
 const live = getLiveSession()
 
 const session = ref(null)
 const loaded = ref(false)
-const activeTab = ref('translation')
+const activeTab = ref(route.query.tab === 'summary' ? 'summary' : 'translation')
+const autostart = ref(false)
 const renaming = ref(false)
 const titleDraft = ref('')
 const titleInput = ref(null)
@@ -138,6 +147,11 @@ async function share() {
   }
 }
 
+function makeSummary() {
+  autostart.value = true
+  activeTab.value = 'summary'
+}
+
 async function remove() {
   if (!confirmingDelete.value) {
     confirmingDelete.value = true
@@ -155,6 +169,25 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.lecture__cta {
+  margin-block-start: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.lecture__cta:hover {
+  background: var(--accent-hi);
+}
+
 .lecture {
   width: min(100%, 52rem);
   margin-inline: auto;

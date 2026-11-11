@@ -1,6 +1,6 @@
 <template>
   <main class="page ai">
-    <section class="section section--first">
+    <PageHero>
       <SectionHead label="§ 00 / AI & Automation" :level="1">
         AI that <em>ships</em>
         <template #lead>
@@ -8,7 +8,7 @@
           failure modes handled. Below: what is in production, and the Telegram bots I build.
         </template>
       </SectionHead>
-    </section>
+    </PageHero>
 
     <!-- ── § 01 AI in production ───────────────────────────────────────── -->
     <section class="section ai__projects">
@@ -83,6 +83,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import SectionHead from '../components/SectionHead.vue'
+import PageHero from '../components/PageHero.vue'
 import TelegramDemo from '../components/TelegramDemo.vue'
 
 const pad = (n) => String(n).padStart(2, '0')

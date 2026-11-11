@@ -6,7 +6,7 @@
     <p v-if="loaded && !sessions.length" class="sessions__empty">{{ t('sessionsEmpty') }}</p>
 
     <ol class="sessions__list">
-      <li v-for="(s, index) in filtered" :key="s.id">
+      <li v-for="(s, index) in filtered" :key="s.id" class="sessions__row">
         <RouterLink :to="`/translate/sessions/${s.id}`" class="sessions__item">
           <span class="sessions__num">{{ String(filtered.length - index).padStart(2, '0') }}</span>
           <span class="sessions__main">
@@ -20,21 +20,66 @@
           </span>
           <span class="sessions__arrow" aria-hidden="true">→</span>
         </RouterLink>
+
+        <button
+          type="button"
+          class="sessions__more"
+          :aria-label="t('more')"
+          :aria-expanded="openId === s.id"
+          @click.stop="toggleMenu(s.id)"
+        >⋯</button>
+
+        <div v-if="openId === s.id" class="sessions__menu" role="menu" @click.stop>
+          <RouterLink :to="`/translate/sessions/${s.id}?tab=summary`" class="sessions__menu-item" role="menuitem">
+            ∑ {{ t('summary') }}
+          </RouterLink>
+          <button
+            type="button"
+            class="sessions__menu-item sessions__menu-item--danger"
+            role="menuitem"
+            :disabled="live.session.value?.id === s.id"
+            @click="remove(s.id)"
+          >{{ confirmingId === s.id ? t('confirmDelete') : t('delete') }}</button>
+        </div>
       </li>
     </ol>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 import { t } from '../i18n.js'
-import { listSessions } from '../services/sessionStore.js'
+import { listSessions, deleteSession } from '../services/sessionStore.js'
+import { getLiveSession } from '../composables/useLiveSession.js'
 import { formatTime } from '../services/exporter.js'
 
 const sessions = ref([])
 const loaded = ref(false)
 const query = ref('')
+const live = getLiveSession()
+const openId = ref(null)
+const confirmingId = ref(null)
+
+function toggleMenu(id) {
+  openId.value = openId.value === id ? null : id
+  confirmingId.value = null
+}
+
+const closeMenu = () => {
+  openId.value = null
+  confirmingId.value = null
+}
+
+async function remove(id) {
+  if (confirmingId.value !== id) {
+    confirmingId.value = id
+    return
+  }
+  await deleteSession(id)
+  sessions.value = sessions.value.filter((s) => s.id !== id)
+  closeMenu()
+}
 
 const filtered = computed(() => {
   const q = query.value.trim().toLowerCase()
@@ -49,7 +94,9 @@ const filtered = computed(() => {
 onMounted(async () => {
   sessions.value = await listSessions().catch(() => [])
   loaded.value = true
+  document.addEventListener('click', closeMenu)
 })
+onBeforeUnmount(() => document.removeEventListener('click', closeMenu))
 </script>
 
 <style scoped>
@@ -97,13 +144,78 @@ onMounted(async () => {
   border-block-start: 1px dashed var(--line);
 }
 
+.sessions__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-block-end: 1px dashed var(--line);
+}
+
+.sessions__more {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.sessions__more:hover,
+.sessions__more[aria-expanded='true'] {
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.sessions__menu {
+  position: absolute;
+  inset-block-start: calc(100% - 0.5rem);
+  inset-inline-end: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-width: 12rem;
+  padding: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.sessions__menu-item {
+  padding: 0.65rem 0.8rem;
+  border: 0;
+  border-radius: calc(var(--radius) / 2);
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sessions__menu-item:hover {
+  background: var(--bg);
+}
+
+.sessions__menu-item--danger {
+  color: var(--accent);
+}
+
+.sessions__menu-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .sessions__item {
   display: grid;
   grid-template-columns: 2.5rem 1fr auto;
   align-items: center;
   gap: 1rem;
   padding-block: 1rem;
-  border-block-end: 1px dashed var(--line);
   color: var(--text);
   text-decoration: none;
 }

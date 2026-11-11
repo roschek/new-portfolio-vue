@@ -8,22 +8,25 @@
       :aria-label="t('stop')"
       @click="$emit('stop')"
     >
-      <span class="record__stop-icon" aria-hidden="true"></span>
+      <span class="record__stop-icon" aria-hidden="true">✓</span>
       <span class="record__stop-text">{{ t('stop') }}</span>
     </button>
 
-    <button
-      ref="main"
-      type="button"
-      class="record__main"
-      :class="`record__main--${mode}`"
-      :disabled="status === 'stopping'"
-      :aria-label="label"
-      @click="onMain"
-    >
-      <span class="record__ring" aria-hidden="true"></span>
-      <span class="record__icon" :class="`record__icon--${mode}`" aria-hidden="true"></span>
-    </button>
+    <div class="record__primary">
+      <button
+        ref="main"
+        type="button"
+        class="record__main"
+        :class="`record__main--${mode}`"
+        :disabled="status === 'stopping'"
+        :aria-label="label"
+        @click="onMain"
+      >
+        <span class="record__ring" aria-hidden="true"></span>
+        <span class="record__icon" :class="`record__icon--${mode}`" aria-hidden="true"></span>
+      </button>
+      <span class="record__caption" aria-hidden="true">{{ label }}</span>
+    </div>
   </div>
 </template>
 
@@ -167,10 +170,25 @@ onBeforeUnmount(stopMeter)
 }
 
 .record__stop-icon {
-  width: 0.65rem;
-  height: 0.65rem;
-  background: var(--text);
-  border-radius: 1px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.record__primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.record__caption {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {

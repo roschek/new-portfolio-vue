@@ -1,6 +1,6 @@
 <template>
   <main class="page portfolio">
-    <section class="section section--first">
+    <PageHero>
       <SectionHead label="§ 00 / Portfolio" :level="1">
         Work, <em>case by case</em>
         <template #lead>
@@ -8,7 +8,7 @@
           myself and the fintech platform I work on — followed by the full timeline.
         </template>
       </SectionHead>
-    </section>
+    </PageHero>
 
     <!-- ── § 01 Cases ──────────────────────────────────────────────────── -->
     <section class="section portfolio__cases">
@@ -20,6 +20,7 @@
         :key="item.id"
         v-reveal
         class="case"
+        :class="{ 'case--shot': item.image }"
       >
         <header class="case__head">
           <p class="label">Case · {{ pad(index + 1) }} <span class="label__dim">· {{ item.period }}</span></p>
@@ -104,6 +105,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import SectionHead from '../components/SectionHead.vue'
+import PageHero from '../components/PageHero.vue'
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -230,6 +232,7 @@ const jobs = [
 /* Case */
 .case {
   display: grid;
+  grid-template-areas: 'head' 'shot' 'story' 'foot';
   gap: 1.75rem;
   padding-block: 3rem;
   border-block-end: 1px dashed var(--line);
@@ -240,7 +243,16 @@ const jobs = [
   padding-block-start: 0;
 }
 
+/* Screenshot sits beside the title, not across the whole column. */
+.case--shot {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+  grid-template-areas: 'head shot' 'story story' 'foot foot';
+  column-gap: 2.5rem;
+}
+
 .case__head {
+  grid-area: head;
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -260,6 +272,8 @@ const jobs = [
 }
 
 .case__shot {
+  grid-area: shot;
+  align-self: start;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -279,6 +293,7 @@ const jobs = [
 }
 
 .case__story {
+  grid-area: story;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
@@ -303,6 +318,7 @@ const jobs = [
 }
 
 .case__foot {
+  grid-area: foot;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -391,6 +407,17 @@ const jobs = [
 }
 
 @media (max-width: 760px) {
+  .case--shot {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'head' 'shot' 'story' 'foot';
+  }
+
+  .case__shot img {
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: top;
+  }
+
   .case__story {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;

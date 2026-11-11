@@ -1,10 +1,13 @@
 <template>
   <main class="page codelab">
-    <section class="section section--first codelab__container">
+    <PageHero>
       <SectionHead label="§ 00 / Code Lab" :level="1">
         Live <em>demos</em>
         <template #lead>Interactive technical demos — algorithms and 3D rendering, live in the browser.</template>
       </SectionHead>
+    </PageHero>
+
+    <section class="section codelab__container">
 
       <nav class="codelab__tabs">
         <button 
@@ -13,7 +16,7 @@
           class="codelab__tab"
           :class="{ 'codelab__tab--active': activeTab === index }"
           @click="activeTab = index"
-          aria-pressed="activeTab === index"
+          :aria-pressed="activeTab === index"
           :aria-label="`Show ${tab.name}`"
         >
           <span class="codelab__tab-icon" aria-hidden="true" v-html="tab.icon"></span>
@@ -35,6 +38,7 @@
 <script setup>
 import { ref, watch, onBeforeUnmount } from 'vue'
 import SectionHead from '../components/SectionHead.vue'
+import PageHero from '../components/PageHero.vue'
 import AlgorithmVisualizer from '../components/AlgorithmVisualiser.vue'
 import ThreeModelViewer from '../components/ThreeModelViewer.vue'
 
@@ -61,7 +65,7 @@ onBeforeUnmount(() => (document.title = siteTitle))
 
 <style scoped>
 .codelab__container {
-  padding-block-end: clamp(4rem, 10vw, 7rem);
+  padding-block-start: 0;
 }
 
 .codelab__tabs {

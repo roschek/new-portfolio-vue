@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
@@ -33,6 +33,8 @@ import { summarize, estimateTokens } from '../services/summarizer.js'
 
 const props = defineProps({
   session: { type: Object, required: true },
+  // Start generating right away (the "Make a summary" button above the tabs).
+  autostart: { type: Boolean, default: false },
 })
 const emit = defineEmits(['update'])
 
@@ -69,6 +71,10 @@ async function make() {
     working.value = false
   }
 }
+
+onMounted(() => {
+  if (props.autostart && key && text.value && !props.session.summary) make()
+})
 </script>
 
 <style scoped>
