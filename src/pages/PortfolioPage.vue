@@ -5,7 +5,7 @@
         Work, <em>case by case</em>
         <template #lead>
           Four projects told as problem, solution and result — three products I build
-          myself and the fintech platform I work on — followed by the full timeline.
+          myself and the fintech platform I worked on — followed by the full timeline.
         </template>
       </SectionHead>
     </PageHero>
@@ -74,10 +74,10 @@
               <template v-else>{{ job.company }}</template>
             </h3>
             <p class="label label--dim">{{ job.role }}</p>
-            <ul class="timeline__points">
+            <ul v-if="job.points?.length" class="timeline__points">
               <li v-for="point in job.points" :key="point">{{ point }}</li>
             </ul>
-            <p class="timeline__stack">{{ job.stack.join(' · ') }}</p>
+            <p v-if="job.stack?.length" class="timeline__stack">{{ job.stack.join(' · ') }}</p>
           </div>
         </li>
       </ol>
@@ -166,7 +166,7 @@ const cases = [
     id: 'payouts',
     name: 'payouts.com',
     role: 'Senior Fullstack Developer · team lead of 5',
-    period: '2023 – now',
+    period: '2023 – 2026',
     url: 'https://payouts.com/',
     linkText: 'payouts.com',
     problem:
@@ -181,10 +181,15 @@ const cases = [
 
 const jobs = [
   {
+    company: 'Vi-soft',
+    role: 'Fullstack Developer',
+    period: '2026 – now',
+  },
+  {
     company: 'payouts.com',
     url: 'https://payouts.com/',
     role: 'Senior Fullstack Developer',
-    period: '2023 – now',
+    period: '2023 – 2026',
     points: [
       'Led a team of 5 developers — reduced bug count by 30% through code review culture and test coverage.',
       'Optimised page load time by 40% via code splitting, lazy loading, and bundle analysis.',

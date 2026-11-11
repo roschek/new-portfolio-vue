@@ -20,7 +20,7 @@
         <ul class="hero__meta">
           <li>Senior Fullstack</li>
           <li>AI integration</li>
-          <li>7 years</li>
+          <li>9 years</li>
           <li>3 products live</li>
         </ul>
 
