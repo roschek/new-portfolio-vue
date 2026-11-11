@@ -100,7 +100,7 @@
     <section v-reveal class="section section--talk">
       <p class="label">§ 05 / Talk</p>
       <h2 class="talk__title">Let's build <em>something</em> real.</h2>
-      <p class="talk__text">Senior full-time roles and consulting in full-stack development and AI integration.</p>
+      <p class="talk__text">Projects and consulting in full-stack development and AI integration.</p>
       <div class="actions">
         <a href="mailto:roscheka@gmail.com" class="btn btn--primary">roscheka@gmail.com <span class="btn__arrow" aria-hidden="true">→</span></a>
         <a href="https://t.me/roschek" target="_blank" rel="noopener" class="btn btn--ghost">Telegram</a>
@@ -219,7 +219,7 @@ const work = [
 const nowEntries = [
   { term: 'Building', value: 'Lecture Translator — live translation and summaries for lectures, as a PWA.' },
   { term: 'Running', value: 'ProfileNexus, Love is Date and Lecture Translator in production.' },
-  { term: 'Open to', value: 'Senior full-time roles and consulting.' },
+  { term: 'Open to', value: 'Projects and consulting.' },
 ]
 function moveSpotlight(event) {
   const rect = hero.value.getBoundingClientRect()

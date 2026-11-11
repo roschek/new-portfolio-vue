@@ -52,7 +52,7 @@
 
         <a href="mailto:roscheka@gmail.com" class="layout__status">
           <span class="layout__status-dot" aria-hidden="true"></span>
-          Open to work
+          Open to projects
         </a>
       </div>
     </header>

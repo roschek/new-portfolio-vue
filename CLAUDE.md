@@ -40,3 +40,5 @@ Vue 3 + Vite SPA portfolio site, deployed on Vercel. No TypeScript — plain JS 
 - `ThreeModelViewer.vue` — Three.js 3D model viewer
 
 **Lecture translator PWA (`/translate/`):** self-contained in `src/translate/`, lazy-loaded, rendered without `DefaultLayout` (`meta.bare` in the router, checked in `App.vue`). Users bring their own API keys (Soniox for speech + translation; Gemini/Anthropic/OpenAI for summaries), stored only in `localStorage`/`sessionStorage`; lectures go to IndexedDB. `useLiveSession` is a shared singleton so changing screens does not stop a recording. The service worker (`vite-plugin-pwa`) is scoped to `/translate/` and the manifest (`public/translate/manifest.webmanifest`) is linked at runtime by `src/translate/pwa.js`, so the rest of the site is not installable. Spec: `docs/superpowers/specs/2026-11-05-lecture-translator-pwa-design.md`.
+
+**CV:** `public/files/alexey-kagan-cv.pdf` (the "Download CV" button) is printed from `docs/cv/alexey-kagan-cv.html` with headless Chrome — edit the HTML, then run the command in its header comment. `alexey-kagan-cv.docx` is an older, unlinked version.

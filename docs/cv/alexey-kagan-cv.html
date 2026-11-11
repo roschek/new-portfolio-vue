@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resume — Alexey Kagan</title>
+<!-- Source of public/files/alexey-kagan-cv.pdf. Rebuild:
+     chrome --headless --no-pdf-header-footer --print-to-pdf=public/files/alexey-kagan-cv.pdf docs/cv/alexey-kagan-cv.html -->
+<style>
+  @page { size: A4; margin: 16mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 10pt/1.45 "Segoe UI", "DejaVu Sans", Arial, sans-serif; color: #333; }
+  h1 { margin: 0; font-size: 21pt; color: #1a1a1a; }
+  .title { margin: 2pt 0 4pt; font-size: 14pt; font-weight: 700; color: #1a1a1a; }
+  .contacts { margin: 0 0 4pt; color: #555; }
+  .contacts a { color: #1a4fd6; text-decoration: none; }
+  h2 { margin: 14pt 0 6pt; font-size: 10.5pt; letter-spacing: 0.08em; text-transform: uppercase; color: #1a1a1a; }
+  h2::after { content: ''; display: block; width: 14pt; margin-top: 3pt; border-top: 2px solid #1a1a1a; }
+  p { margin: 0; }
+  .job { padding: 8pt 0; border-bottom: 1px solid #e5e5e5; break-inside: avoid; }
+  .job:last-child { border-bottom: 0; }
+  .job__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  .job__role { font-weight: 700; font-size: 10.5pt; color: #1a1a1a; }
+  .job__period { color: #888; font-size: 9pt; white-space: nowrap; }
+  ul { margin: 5pt 0 0; padding: 0; list-style: none; }
+  li { position: relative; padding-left: 12pt; margin-bottom: 3pt; }
+  li::before { content: '→'; position: absolute; left: 0; color: #1a1a1a; }
+  .skills p { margin-bottom: 2pt; }
+  .skills b, .langs b { color: #1a1a1a; }
+  .langs { display: grid; grid-template-columns: max-content max-content; column-gap: 18pt; }
+</style>
+</head>
+<body>
+  <h1>Alexey Kagan</h1>
+  <p class="title">Senior Fullstack Engineer</p>
+  <p class="contacts">
+    Tel Aviv, Israel · +972 53-931-07-07 · roscheka@gmail.com ·
+    <a href="https://www.linkedin.com/in/alexey-kagan">linkedin.com/in/alexey-kagan</a> ·
+    <a href="https://github.com/roschek">github.com/roschek</a> ·
+    <a href="https://alex-kagan-develop.com">alex-kagan-develop.com</a>
+  </p>
+
+  <h2>Profile</h2>
+  <p>
+    Senior engineer with over 9 years of expertise in designing and scaling complex, component-based
+    applications using React and Vue. Proven leader in optimizing frontend architecture, achieving up to 40%
+    improvements in performance. Adept at taking end-to-end ownership of features from technical design to
+    production rollout, and experienced in modernizing legacy systems, including full codebase migrations to
+    TypeScript. Passionate about mentoring teams and upholding high engineering standards to build
+    exceptional user experiences in dynamic, product-focused environments.
+  </p>
+
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="job__head">
+      <span class="job__role">Full-stack Developer at Vi-soft</span>
+      <span class="job__period">2026 – Present</span>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="job__head">
+      <span class="job__role">Senior Full-stack Developer at Payouts.com, Tel Aviv, Israel</span>
+      <span class="job__period">2023 – 2026</span>
+    </div>
+    <ul>
+      <li>Spearheaded frontend architecture enhancements, resulting in a 40% acceleration in component loading times and significantly improving platform performance.</li>
+      <li>Engineered and executed a seamless migration of the entire frontend codebase to TypeScript, which reduced runtime issues by 25% and improved code maintainability.</li>
+      <li>Designed and implemented a modular Role-Based Access Control (RBAC) system from the ground up, strengthening application security and access control.</li>
+      <li>Mentored a team of 5 engineers, establishing rigorous code review processes and best practices that decreased production bugs by 30%.</li>
+      <li>Drove innovation by developing and integrating an AI agent for preliminary code reviews, cutting manual review time by 50% and boosting team productivity.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job__head">
+      <span class="job__role">Senior Frontend Developer at Korus Consulting</span>
+      <span class="job__period">2020 – 2023</span>
+    </div>
+    <ul>
+      <li>Developed a high-conversion Vue 3 marketplace module for e-commerce giant LaModa, directly leading to a 15% increase in user conversion.</li>
+      <li>Optimized mobile UX and layout architecture, improving key performance metrics by 25% for a smoother user experience on all devices.</li>
+      <li>Architected and delivered a custom, real-time warehouse management system, enabling efficient data processing and operational oversight.</li>
+      <li>Built advanced, data-driven analytics dashboards using Vue 2+, Express, and MongoDB to provide critical business insights.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job__head">
+      <span class="job__role">Full Stack Developer at Nota.Media</span>
+      <span class="job__period">2018 – 2020</span>
+    </div>
+    <ul>
+      <li>Engineered a scalable backend architecture using Nest.js and MongoDB to support a modern NFT marketplace with real-time transaction capabilities.</li>
+      <li>Owned the end-to-end delivery of multiple responsive web applications, tailoring each solution to meet specific client performance and UX objectives.</li>
+      <li>Collaborated with cross-functional teams to build and launch complex, feature-rich platforms for a diverse client base.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job__head">
+      <span class="job__role">Frontend Developer at Yandex</span>
+      <span class="job__period">2016 – 2018</span>
+    </div>
+    <ul>
+      <li>Developed and maintained high-traffic, client-facing interfaces utilizing BEM methodology and a modular SCSS architecture for a highly scalable system.</li>
+      <li>Contributed to the development of internal tooling and core product features within a fast-paced, agile environment.</li>
+      <li>Actively participated in establishing high engineering standards through rigorous code reviews, test strategy contributions, and CI/CD automation.</li>
+    </ul>
+  </div>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <p><b>Frontend:</b> React, TypeScript, Vue.js, Angular, JavaScript (ES6+), HTML5, CSS3, SCSS/SASS, BEM</p>
+    <p><b>Backend:</b> Node.js, Express, NestJS</p>
+    <p><b>Databases:</b> MongoDB, SQL</p>
+    <p><b>Mobile:</b> Flutter</p>
+    <p><b>Tools &amp; Practices:</b> Git, Docker, Webpack, NPM, Jest, React Testing Library, Cypress, Agile, Scrum, CI/CD, Component-Based Architecture</p>
+  </div>
+
+  <h2>Education</h2>
+  <p><b>B.Sc. in Computer Science</b> — Saint Petersburg State University, Russia</p>
+
+  <h2>Languages</h2>
+  <div class="langs">
+    <span>Russian</span><b>Native</b>
+    <span>English</span><b>Fluent</b>
+    <span>Hebrew</span><b>Basic</b>
+  </div>
+</body>
+</html>
