@@ -182,8 +182,13 @@ const cases = [
 const jobs = [
   {
     company: 'Vi-soft',
+    url: 'https://visoft-eng.com/',
     role: 'Fullstack Developer',
     period: '2026 – now',
+    points: [
+      'Building an application for a cloud construction management and QA/QC platform — on-site inspections, non-conformance reports and project documentation for contractors and engineers.',
+    ],
+    stack: ['React', 'Java', 'Spring'],
   },
   {
     company: 'payouts.com',
